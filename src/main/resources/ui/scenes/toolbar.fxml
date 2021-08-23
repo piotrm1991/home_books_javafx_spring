@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="800.0" prefWidth="150.0" styleClass="toolbar-container" stylesheets="@../css/dark-theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.home_books_javafx_spring.ui.ToolbarController">
+    <children>
+        <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAddBookAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Add Book" textAlignment="CENTER">
+            <graphic>
+                <FontAwesomeIconView glyphName="BOOK" size="25" />
+            </graphic>
+        </JFXButton>
+        <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#handleAddAuthorAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Add Author" textAlignment="CENTER">
+            <graphic>
+                <FontAwesomeIconView glyphName="USER" size="25" />
+            </graphic>
+        </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleAddPublisherAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Add Publisher" textAlignment="CENTER">
+         <graphic>
+            <FontAwesomeIconView glyphName="USER" size="25" />
+         </graphic>
+      </JFXButton>
+        <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="81.0" mnemonicParsing="false" onAction="#handleShowBookListAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Book List" textAlignment="CENTER">
+            <graphic>
+                <FontAwesomeIconView glyphName="BOOK" size="25" />
+            </graphic>
+        </JFXButton>
+        <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleShowAuthorListAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Author List" textAlignment="CENTER">
+            <graphic>
+                <FontAwesomeIconView glyphName="USERS" size="25" />
+            </graphic>
+        </JFXButton>
+      <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleShowPublisherListAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Publisher List" textAlignment="CENTER">
+         <graphic>
+            <FontAwesomeIconView glyphName="BUILDING" size="25" />
+         </graphic>
+      </JFXButton>
+        <JFXButton contentDisplay="TOP" layoutX="10.0" layoutY="223.0" mnemonicParsing="false" onAction="#handleShowSettingsAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Settings" textAlignment="CENTER">
+            <graphic>
+                <FontAwesomeIconView glyphName="COG" size="25" />
+            </graphic>
+        </JFXButton>
+        <JFXButton contentDisplay="TOP" mnemonicParsing="false" onAction="#handleCloseAction" prefHeight="400.0" prefWidth="160.0" styleClass="toolbar-button" text="Close" textAlignment="CENTER">
+            <graphic>
+                <FontAwesomeIconView glyphName="POWER_OFF" size="25" textAlignment="CENTER" />
+            </graphic>
+        </JFXButton>
+    </children>
+</VBox>
