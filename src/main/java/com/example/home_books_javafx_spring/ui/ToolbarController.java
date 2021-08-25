@@ -31,7 +31,7 @@ public class ToolbarController implements Initializable {
 
     @FXML
     public void handleAddBookAction(ActionEvent actionEvent) {
-//        DialogMaker.showAddEditBookDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showAddEditBookDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
@@ -41,27 +41,27 @@ public class ToolbarController implements Initializable {
 
     @FXML
     public void handleAddPublisherAction(ActionEvent actionEvent) {
-//        DialogMaker.showAddEditPublisherDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showAddEditPublisherDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
     public void handleShowBookListAction(ActionEvent actionEvent) {
-//        DialogMaker.showBookListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showBookListDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
     public void handleShowAuthorListAction(ActionEvent actionEvent) {
-//        DialogMaker.showAuthorListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showAuthorListDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
     public void handleShowPublisherListAction(ActionEvent actionEvent) {
-//        DialogMaker.showPublisherListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showPublisherListDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
     public void handleShowSettingsAction(ActionEvent actionEvent) {
-//        DialogMaker.showSettingsDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showSettingsDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML

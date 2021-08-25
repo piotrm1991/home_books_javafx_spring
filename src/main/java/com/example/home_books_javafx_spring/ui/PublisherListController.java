@@ -1,8 +1,8 @@
 package com.example.home_books_javafx_spring.ui;
 
-import com.example.home_books_javafx_spring.database.service.AuthorService;
+import com.example.home_books_javafx_spring.database.service.PublisherService;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
-import com.example.home_books_javafx_spring.dto.models.AuthorDto;
+import com.example.home_books_javafx_spring.dto.models.PublisherDto;
 import com.example.home_books_javafx_spring.util.AlertMaker;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -38,10 +38,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-public class AuthorListController implements Initializable {
+public class PublisherListController implements Initializable {
 
     @Autowired
-    AuthorService authorService;
+    PublisherService publisherService;
 
     @Autowired
     DtoMapper dtoMapper;
@@ -52,20 +52,18 @@ public class AuthorListController implements Initializable {
     @Value("${spring.application.ui.scene.location}")
     private String scenesLocation;
 
-    ObservableList<AuthorUi> list = FXCollections.observableArrayList();
+    ObservableList<PublisherUi> list = FXCollections.observableArrayList();
 
     @FXML
     public StackPane rootPane;
     @FXML
     public AnchorPane rootAnchorPane;
     @FXML
-    public TableColumn<AuthorUi, String> firstNameCol;
+    public TableColumn<PublisherUi, String> nameCol;
     @FXML
-    public TableColumn<AuthorUi, String> lastNameCol;
+    public TableColumn<PublisherUi, String> nOfBooksCol;
     @FXML
-    public TableColumn<AuthorUi, String> nOfBooksCol;
-    @FXML
-    public TableView<AuthorUi> tableView;
+    public TableView<PublisherUi> tableView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,45 +75,43 @@ public class AuthorListController implements Initializable {
     private void loadData() {
         this.list.clear();
 
-        List<AuthorDto> result = this.authorService.getAllAuthorsDto();
+        List<PublisherDto> result = this.publisherService.getAllPublishersDto();
         try {
-            Iterator<AuthorDto> iterator = result.listIterator();
+            Iterator<PublisherDto> iterator = result.listIterator();
             while (iterator.hasNext()) {
-                this.list.add(new AuthorUi(iterator.next()));
+                this.list.add(new PublisherUi(iterator.next()));
             }
         } catch (Exception e) {
-            Logger.getLogger(AuthorListController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(PublisherListController.class.getName()).log(Level.SEVERE, null, e);
         }
         this.tableView.setItems(list);
     }
 
     private void initCol() {
-        this.firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        this.lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.nOfBooksCol.setCellValueFactory(new PropertyValueFactory<>("numberBooks"));
     }
 
     @FXML
-    public void handleEditAuthorAction(ActionEvent actionEvent) {
-        AuthorUi selectedForEdit = this.tableView.getSelectionModel().getSelectedItem();
+    public void handleEditPublisherAction(ActionEvent actionEvent) {
+        PublisherUi selectedForEdit = this.tableView.getSelectionModel().getSelectedItem();
 
         if (selectedForEdit
             == null) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Author Selected", "Please Select Author For Edit");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Publisher Selected", "Please Select Publisher For Edit");
             return;
         }
 
-        AuthorDto selectedAuthorForEdit = this.dtoMapper.fromAuthorUI(selectedForEdit);
+        PublisherDto selectedPublisherForEdit = this.dtoMapper.fromPublisherUI(selectedForEdit);
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation
-                                                                          + "add_author.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation + "add_publisher.fxml"));
             fxmlLoader.setControllerFactory(a -> this.applicationContext.getBean(a));
             StackPane parent = fxmlLoader.load();
 
-            AddAuthorController controller = (AddAuthorController) fxmlLoader.getController();
-            controller.inflateUI(selectedAuthorForEdit);
+            AddPublisherController controller = (AddPublisherController) fxmlLoader.getController();
+            controller.inflateUI(selectedPublisherForEdit);
 
             BoxBlur blur = new BoxBlur(3, 3, 3);
 
@@ -129,7 +125,7 @@ public class AuthorListController implements Initializable {
                 this.handleRefreshAction(new ActionEvent());
             });
 
-            Label header = new Label("Edit Author");
+            Label header = new Label("Edit Publisher");
             header.getStyleClass().add("app.dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
@@ -139,7 +135,7 @@ public class AuthorListController implements Initializable {
             });
             rootAnchorPane.setEffect(blur);
         } catch (IOException e) {
-            Logger.getLogger(AuthorListController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(PublisherListController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -149,37 +145,35 @@ public class AuthorListController implements Initializable {
         if (this.tableView.getSelectionModel().getSelectedItem()
             == null) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Author Selected", "Please Select The Author");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Publisher Selected", "Please Select The Publisher");
             return;
         }
 
-        AuthorDto selectedForDeletion = this.dtoMapper.fromAuthorUI(this.tableView.getSelectionModel().getSelectedItem());
+        PublisherDto selectedForDeletion = this.dtoMapper.fromPublisherUI(this.tableView.getSelectionModel().getSelectedItem());
 
         JFXButton yButton = new JFXButton("YES");
         JFXButton nButton = new JFXButton("NO");
         yButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-            this.authorService.deleteAuthor(selectedForDeletion.getId());
+            this.publisherService.deletePublisher(selectedForDeletion.getId());
             this.handleRefreshAction(new ActionEvent());
         });
-        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yButton, nButton), "Delete Author", "Are You Sure You Want To Delete Book - "
-                                                                                                                  + selectedForDeletion.getFirstName()
-                                                                                                                  + " "
-                                                                                                                  + selectedForDeletion.getLastName()
-                                                                                                                  + "?");
+        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yButton, nButton), "Delete Publisher", "Are You Sure You Want To Delete Publisher - "
+                                                                                                                  + selectedForDeletion.getName()
+                                                                                                                  + " ?");
     }
 
     @FXML
     public void handleShowBooksListAction(ActionEvent actionEvent) {
-        AuthorUi selectedUI = this.tableView.getSelectionModel().getSelectedItem();
+        PublisherUi selectedUI = this.tableView.getSelectionModel().getSelectedItem();
 
         if (selectedUI
             == null) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Author Selected", "Please Select Author To Show Books");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Publisher Selected", "Please Select Publisher To Show Books");
             return;
         }
 
-        AuthorDto selected = this.dtoMapper.fromAuthorUI(selectedUI);
+        PublisherDto selected = this.dtoMapper.fromPublisherUI(selectedUI);
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation + "book_list.fxml"));
@@ -223,34 +217,28 @@ public class AuthorListController implements Initializable {
         this.loadData();
     }
 
-    public static class AuthorUi {
+    public static class PublisherUi {
 
         private Integer id;
-        private final SimpleStringProperty firstName;
-        private final SimpleStringProperty lastName;
+        private final SimpleStringProperty name;
         private final SimpleStringProperty numberBooks;
 
-        public AuthorUi(AuthorDto authorDto) {
-            this.id = authorDto.getId();
-            this.firstName = new SimpleStringProperty(authorDto.getFirstName());
-            this.lastName = new SimpleStringProperty(authorDto.getLastName());
-            this.numberBooks = new SimpleStringProperty(authorDto.getNBooks().toString());
+        public PublisherUi(PublisherDto publisherDto) {
+            this.id = publisherDto.getId();
+            this.name = new SimpleStringProperty(publisherDto.getName());
+            this.numberBooks = new SimpleStringProperty(publisherDto.getNBooks().toString());
         }
 
-        public String getFirstName() {
-            return firstName.get();
-        }
-
-        public String getLastName() {
-            return lastName.get();
-        }
-
-        public Integer getId() {
-            return id;
+        public String getName() {
+            return name.get();
         }
 
         public String getNumberBooks() {
             return numberBooks.get();
+        }
+
+        public Integer getId() {
+            return id;
         }
     }
 }

@@ -32,9 +32,6 @@ public class AddPublisherController implements Initializable {
     @Autowired
     EntityValidator entityValidator;
 
-    @Autowired
-    DtoMapper dtoMapper;
-
     @FXML
     private JFXTextField publisherName;
     @FXML
@@ -48,7 +45,7 @@ public class AddPublisherController implements Initializable {
 
     private Integer publisherId;
 
-    private boolean inEditMode = false;
+    private boolean isSaved = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +53,7 @@ public class AddPublisherController implements Initializable {
 
     @FXML
     public void addPublisher(ActionEvent actionEvent) {
+        this.isSaved = false;
         String publisherName = this.publisherName.getText();
 
         PublisherDto publisherDto = PublisherDto.builder()
@@ -67,6 +65,10 @@ public class AddPublisherController implements Initializable {
 
         if (errors.isEmpty()) {
             this.publisherService.addPublisher(publisherDto);
+            JFXButton button = new JFXButton("OK");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Saved", "");
+            this.isSaved = true;
+            this.publisherId = null;
         } else {
             JFXButton button = new JFXButton("OK");
             AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Error", errors);
@@ -76,17 +78,11 @@ public class AddPublisherController implements Initializable {
 
     @FXML
     public void cancel(ActionEvent actionEvent) {
-//        if (!inEditMode) {
-//            Stage stage = (Stage) rootPane.getScene().getWindow();
-//            stage.close();
-//        }
     }
 
     public void inflateUI(PublisherDto publisherDto) {
         this.publisherId = publisherDto.getId();
         this.publisherName.setText(publisherDto.getName());
-
-        this.inEditMode = true;
     }
 
     public List<JFXButton> getControls() {
@@ -100,5 +96,9 @@ public class AddPublisherController implements Initializable {
 
     public JFXButton getCancelButton() {
         return this.cancelButton;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
     }
 }

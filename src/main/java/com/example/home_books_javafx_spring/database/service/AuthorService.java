@@ -1,8 +1,9 @@
 package com.example.home_books_javafx_spring.database.service;
 
 
-import com.example.home_books_javafx_spring.config.MainConfig;
+import com.example.home_books_javafx_spring.config.FieldsConfig;
 import com.example.home_books_javafx_spring.database.entities.Author;
+import com.example.home_books_javafx_spring.database.entities.Publisher;
 import com.example.home_books_javafx_spring.database.repository.AuthorRepository;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
 import com.example.home_books_javafx_spring.dto.models.AuthorDto;
@@ -12,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.home_books_javafx_spring.config.FieldsConfig.*;
 
 @Service
 public class AuthorService {
@@ -25,13 +27,16 @@ public class AuthorService {
     @Autowired
     DtoMapper dtoMapper;
 
+    private Integer keyHolder;
+
 //    @Autowired
 //    BookRepository bookRepository;
 
     @Transactional
     public void addAuthor(AuthorDto authorDto) {
         Author author = this.dtoMapper.fromAuthorDto(authorDto);
-        this.authorRepository.save(author);
+        Author save = this.authorRepository.save(author);
+        this.keyHolder = save.getId();
     }
 
     public List<Author> getAllAuthors() {
@@ -52,7 +57,7 @@ public class AuthorService {
     @Transactional
     public void deleteAuthor(Integer id) {
         Author toDelete = this.authorRepository.findById(id).get();
-        boolean flag = toDelete.getFirstName() != MainConfig.DEFAULT_AUTHOR_FIRST_NAME && toDelete.getLastName() != MainConfig.DEFAULT_AUTHOR_LAST_NAME;
+        boolean flag = toDelete.getFirstName() != FieldsConfig.DEFAULT_AUTHOR_FIRST_NAME && toDelete.getLastName() != FieldsConfig.DEFAULT_AUTHOR_LAST_NAME;
         if (flag) {
 //            Collection<Book> bookOfAuthorToDelete = this.bookRepository.findByAuthorId(id);
 //            Author defaultAuthor = this.getDefaultAuthor();
@@ -65,19 +70,24 @@ public class AuthorService {
     }
 
     private Author getDefaultAuthor() {
-        return this.authorRepository.findByFirstNameAndLastName(MainConfig.DEFAULT_AUTHOR_FIRST_NAME, MainConfig.DEFAULT_AUTHOR_LAST_NAME).stream().findAny().get();
+        return this.authorRepository.findByFirstNameAndLastName(FieldsConfig.DEFAULT_AUTHOR_FIRST_NAME, FieldsConfig.DEFAULT_AUTHOR_LAST_NAME).stream().findAny().get();
     }
 
     @Transactional
     @PostConstruct
     public void prepareDefaultAuthor() {
-        this.authorRepository
-                .findByFirstNameAndLastName(MainConfig.DEFAULT_AUTHOR_FIRST_NAME, MainConfig.DEFAULT_AUTHOR_LAST_NAME)
-                .stream()
-                .findAny()
-                .orElse(this.authorRepository.save(Author.builder()
-                        .firstName(MainConfig.DEFAULT_AUTHOR_FIRST_NAME)
-                        .lastName(MainConfig.DEFAULT_AUTHOR_LAST_NAME)
-                        .build()));
+        Optional<Author> first = this.authorRepository.findByFirstNameAndLastName(DEFAULT_AUTHOR_FIRST_NAME, DEFAULT_AUTHOR_LAST_NAME).stream().findFirst();
+        if (first.isEmpty()) {
+            this.authorRepository.save(Author.builder().firstName(DEFAULT_AUTHOR_FIRST_NAME).lastName(DEFAULT_AUTHOR_LAST_NAME).build());
+        }
+    }
+
+    public Integer getKeyHolder() {
+        return keyHolder;
+    }
+
+    public AuthorDto getLastUpdatedAuthorDto() {
+        Author author = this.authorRepository.findById(this.keyHolder).get();
+        return this.dtoMapper.fromAuthor(author);
     }
 }

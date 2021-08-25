@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" prefHeight="200.0" prefWidth="300.0" stylesheets="@../css/dark-theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.home_books_javafx_spring.ui.AddShelfController">
+    <children>
+        <AnchorPane fx:id="rootAnchorPane">
+            <children>
+                <VBox layoutY="-23.0" prefHeight="112.0" prefWidth="367.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <JFXComboBox fx:id="comboBoxRoom" prefHeight="25.0" prefWidth="360.0" promptText="Room">
+                            <padding>
+                                <Insets left="20.0" right="20.0" />
+                            </padding>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </JFXComboBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <JFXTextField fx:id="letterInput" promptText="Letter">
+                                    <padding>
+                                        <Insets left="20.0" right="20.0" top="30.0" />
+                                    </padding>
+                                </JFXTextField>
+                                <JFXTextField fx:id="numberInput" promptText="Number">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                    <padding>
+                                        <Insets left="20.0" right="20.0" top="30.0" />
+                                    </padding>
+                                </JFXTextField>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="60.0" prefWidth="530.0" spacing="100.0">
+                            <children>
+                                <JFXButton fx:id="saveButton" onAction="#addShelf" prefHeight="60.0" prefWidth="250.0" styleClass="app.dialog-button" text="Save" />
+                                <JFXButton fx:id="cancelButton" layoutX="10.0" layoutY="10.0" onAction="#cancel" prefHeight="60.0" prefWidth="250.0" styleClass="app.dialog-button" text="Cancel" />
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>

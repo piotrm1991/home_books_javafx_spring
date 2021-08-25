@@ -17,6 +17,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -32,6 +34,12 @@ public class MainController implements Initializable {
 
     @Autowired
     DialogMaker dialogMaker;
+
+    @Autowired
+    ApplicationContext applicationContext;
+
+    @Value("${spring.application.ui.scene.location}")
+    private String scenesLocation;
 
     @FXML
     private StackPane rootPane;
@@ -65,7 +73,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAddBook(ActionEvent actionEvent) {
-//        DialogMaker.showAddEditBookDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showAddEditBookDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
@@ -80,12 +88,12 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuViewBooks(ActionEvent actionEvent) {
-//        DialogMaker.showBookListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showBookListDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
     private void handleMenuViewPublishers(ActionEvent actionEvent) {
-//        DialogMaker.showPublisherListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showPublisherListDialog(this.rootPane, this.rootAnchorPane);
     }
 
     @FXML
@@ -160,7 +168,8 @@ public class MainController implements Initializable {
 
     private void initDrawer() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/scenes/toolbar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(this.scenesLocation + "toolbar.fxml"));
+            loader.setControllerFactory(a -> this.applicationContext.getBean(a));
             VBox toolbar = loader.load();
             ToolbarController controller = loader.getController();
             controller.setRootPane(this.rootPane);

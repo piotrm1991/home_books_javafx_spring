@@ -2,8 +2,9 @@ package com.example.home_books_javafx_spring.dto.models;
 
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import javax.validation.constraints.Size;
 
 @Builder
 @NoArgsConstructor
@@ -15,40 +16,19 @@ public class BookDto implements EntityDto {
 
     private Integer id;
 
-    @NotNull
+    @NotEmpty(message = "Title can't be empty")
+    @Size(min = 2, max = 40, message = "Title should have from 2 to 40 letters")
     private String name;
 
-    @NotNull
-    private Integer idAuthor;
+    @NotNull(message = "You have to choose Author")
+    private AuthorDto authorDto;
 
-    private String authorFirstName;
+    @NotNull(message = "You have to choose Publisher")
+    private PublisherDto publisherDto;
 
-    private String authorLastName;
+    @NotNull(message = "Book need Status")
+    private StatusDto statusDto;
 
-    private Integer idStatus;
-
-    @NotNull
-    private Integer idStatusType;
-
-    private String statusTypeName;
-
-    private Date dateUp;
-
-    private String comment;
-
-    @NotNull
-    private Integer idPublisher;
-
-    private String publisherName;
-
-    @NotNull
-    private Integer idShelf;
-
-    private String shelfLetter;
-
-    private Integer shelfNumber;
-
-    private Integer idRoom;
-
-    private String roomName;
+    @NotNull(message = "You have to choose Shelf")
+    private ShelfDto shelfDto;
 }

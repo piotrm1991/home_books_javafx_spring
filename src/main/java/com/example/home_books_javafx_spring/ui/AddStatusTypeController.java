@@ -1,9 +1,9 @@
 package com.example.home_books_javafx_spring.ui;
 
-import com.example.home_books_javafx_spring.database.service.AuthorService;
+import com.example.home_books_javafx_spring.database.service.StatusTypeService;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
-import com.example.home_books_javafx_spring.dto.models.AuthorDto;
 import com.example.home_books_javafx_spring.dto.models.EntityDto;
+import com.example.home_books_javafx_spring.dto.models.StatusTypeDto;
 import com.example.home_books_javafx_spring.util.AlertMaker;
 import com.example.home_books_javafx_spring.util.EntityValidator;
 import com.jfoenix.controls.JFXButton;
@@ -13,22 +13,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 @Component
-public class AddAuthorController implements Initializable {
+public class AddStatusTypeController implements Initializable {
 
     @Autowired
-    AuthorService authorService;
+    StatusTypeService statusTypeService;
+
+    @Autowired
+    DtoMapper dtoMapper;
 
     @Autowired
     EntityValidator entityValidator;
@@ -38,17 +39,13 @@ public class AddAuthorController implements Initializable {
     @FXML
     private AnchorPane rootAnchorPane;
     @FXML
-    private JFXTextField firstName;
-    @FXML
-    private JFXTextField lastName;
-    @FXML
     private JFXButton saveButton;
     @FXML
     private JFXButton cancelButton;
+    @FXML
+    private JFXTextField statusTypeName;
 
-    private Integer authorId;
-
-    private boolean isSaved = false;
+    private Integer statusTypeId;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,42 +55,25 @@ public class AddAuthorController implements Initializable {
     public void cancel(ActionEvent actionEvent) {
     }
 
-    public void addAuthor(ActionEvent actionEvent) {
+    @FXML
+    public void addStateType(ActionEvent actionEvent) {
+        String stateTypeName = this.statusTypeName.getText();
 
-        this.isSaved = false;
-        String firstName = this.firstName.getText();
-        String lastName = this.lastName.getText();
-
-        AuthorDto authorDto = AuthorDto.builder()
-                .id(this.authorId)
-                .firstName(firstName)
-                .lastName(lastName)
+        StatusTypeDto statusTypeDto = StatusTypeDto.builder()
+                .id(this.statusTypeId)
+                .name(stateTypeName)
                 .build();
 
-        Set<ConstraintViolation<EntityDto>> errors = this.entityValidator.validateEntity(authorDto);
+        Set<ConstraintViolation<EntityDto>> errors = this.entityValidator.validateEntity(statusTypeDto);
 
         if (errors.isEmpty()) {
-            this.authorService.addAuthor(authorDto);
-            this.authorId = null;
-            JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Saved", "");
-            this.isSaved = true;
+            this.statusTypeService.addStatusType(statusTypeDto);
+            this.statusTypeService = null;
         } else {
             JFXButton button = new JFXButton("OK");
             AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Error", errors);
             return;
         }
-    }
-
-    public void inflateUI(AuthorDto authorDto) {
-        this.authorId = authorDto.getId();
-        this.firstName.setText(authorDto.getFirstName());
-        this.lastName.setText(authorDto.getLastName());
-    }
-
-    public List<JFXButton> getControls() {
-        List<JFXButton> list = Arrays.asList(this.saveButton, this.cancelButton);
-        return list;
     }
 
     public JFXButton getSaveButton() {
@@ -104,7 +84,8 @@ public class AddAuthorController implements Initializable {
         return cancelButton;
     }
 
-    public boolean isSaved() {
-        return isSaved;
+    public void inflateUI(StatusTypeDto statusTypeDto) {
+        this.statusTypeId = statusTypeDto.getId();
+        this.statusTypeName.setText(statusTypeDto.getName());
     }
 }

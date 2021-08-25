@@ -1,6 +1,6 @@
 package com.example.home_books_javafx_spring.database.service;
 
-import com.example.home_books_javafx_spring.config.MainConfig;
+import com.example.home_books_javafx_spring.config.FieldsConfig;
 import com.example.home_books_javafx_spring.database.entities.Publisher;
 import com.example.home_books_javafx_spring.database.repository.PublisherRepository;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.home_books_javafx_spring.config.FieldsConfig.*;
 
 @Service
 public class PublisherService {
@@ -23,18 +25,19 @@ public class PublisherService {
     @Autowired
     DtoMapper dtoMapper;
 
-//    @Autowired
-//    BookRepository bookRepository;
+    private Integer keyHolder;
 
     @Transactional
     public void addPublisher(Publisher publisher) {
-        this.publisherRepository.save(publisher);
+        Publisher save = this.publisherRepository.save(publisher);
+        this.keyHolder = save.getId();
     }
 
     @Transactional
     public void addPublisher(PublisherDto publisherDto) {
         Publisher publisher = this.dtoMapper.fromPublisherDto(publisherDto);
-        this.publisherRepository.save(publisher);
+        Publisher save = this.publisherRepository.save(publisher);
+        this.keyHolder = save.getId();
     }
 
     public List<Publisher> getAllPublishers() {
@@ -48,7 +51,7 @@ public class PublisherService {
     @Transactional
     public void deletePublisher(Integer id) {
         Publisher toDelete = this.publisherRepository.findById(id).get();
-        boolean flag = toDelete.getName() != MainConfig.DEFAULT_PUBLISHER_NAME;
+        boolean flag = toDelete.getName() != DEFAULT_PUBLISHER_NAME;
         if (flag) {
 //            Publisher defaultPublisher = this.getDefaultPublisher();
 //            Collection<Book> booksOfPublisherToDelete = this.bookRepository.findByPublisherId(id);
@@ -61,18 +64,32 @@ public class PublisherService {
     }
 
     private Publisher getDefaultPublisher() {
-        return this.publisherRepository.findPublisherByName(MainConfig.DEFAULT_PUBLISHER_NAME).stream().findAny().get();
+        return this.publisherRepository.findPublisherByName(DEFAULT_PUBLISHER_NAME).stream().findAny().get();
     }
 
     @Transactional
     @PostConstruct
     public void prepareDefaultPublisher() {
-       this.publisherRepository
-                .findPublisherByName(MainConfig.DEFAULT_PUBLISHER_NAME)
-                .stream()
-                .findAny()
-                .orElse(this.publisherRepository.save(Publisher.builder().name(MainConfig.DEFAULT_PUBLISHER_NAME).build()));
+        Optional<Publisher> first = this.publisherRepository.findPublisherByName(DEFAULT_PUBLISHER_NAME).stream().findFirst();
+        if (first.isEmpty()) {
+            this.publisherRepository.save(Publisher.builder().name(DEFAULT_PUBLISHER_NAME).build());
+        }
     }
 
 
+    public List<PublisherDto> getAllPublishersDto() {
+        List<Publisher> publishers = this.publisherRepository.findAll();
+        List<PublisherDto> publishersDto = new ArrayList<>();
+        publishers.stream().forEach(publisher -> publishersDto.add(this.dtoMapper.fromPublisher(publisher)));
+        return publishersDto;
+    }
+
+    public Integer getKeyHolder() {
+        return keyHolder;
+    }
+
+    public PublisherDto getLastUpdatedPublisherDto() {
+        Publisher publisher = this.publisherRepository.findById(this.keyHolder).get();
+        return this.dtoMapper.fromPublisher(publisher);
+    }
 }

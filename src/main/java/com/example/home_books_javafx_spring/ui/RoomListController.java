@@ -1,8 +1,8 @@
 package com.example.home_books_javafx_spring.ui;
 
-import com.example.home_books_javafx_spring.database.service.AuthorService;
+import com.example.home_books_javafx_spring.database.service.RoomService;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
-import com.example.home_books_javafx_spring.dto.models.AuthorDto;
+import com.example.home_books_javafx_spring.dto.models.RoomDto;
 import com.example.home_books_javafx_spring.util.AlertMaker;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -38,10 +38,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-public class AuthorListController implements Initializable {
+public class RoomListController implements Initializable {
 
     @Autowired
-    AuthorService authorService;
+    RoomService roomService;
 
     @Autowired
     DtoMapper dtoMapper;
@@ -52,20 +52,20 @@ public class AuthorListController implements Initializable {
     @Value("${spring.application.ui.scene.location}")
     private String scenesLocation;
 
-    ObservableList<AuthorUi> list = FXCollections.observableArrayList();
+    ObservableList<RoomUi> list = FXCollections.observableArrayList();
 
     @FXML
-    public StackPane rootPane;
+    private StackPane rootPane;
     @FXML
-    public AnchorPane rootAnchorPane;
+    private AnchorPane rootAnchorPane;
     @FXML
-    public TableColumn<AuthorUi, String> firstNameCol;
+    private TableView<RoomUi> tableView;
     @FXML
-    public TableColumn<AuthorUi, String> lastNameCol;
+    private TableColumn<RoomUi, String> nameCol;
     @FXML
-    public TableColumn<AuthorUi, String> nOfBooksCol;
+    private TableColumn<RoomUi, String> nOfShelves;
     @FXML
-    public TableView<AuthorUi> tableView;
+    private TableColumn<RoomUi, String> nOfBooks;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,49 +73,47 @@ public class AuthorListController implements Initializable {
         this.loadData();
     }
 
-
     private void loadData() {
         this.list.clear();
 
-        List<AuthorDto> result = this.authorService.getAllAuthorsDto();
+        List<RoomDto> result = this.roomService.getAllRoomsDto();
         try {
-            Iterator<AuthorDto> iterator = result.listIterator();
+            Iterator<RoomDto> iterator = result.listIterator();
             while (iterator.hasNext()) {
-                this.list.add(new AuthorUi(iterator.next()));
+                this.list.add(new RoomUi(iterator.next()));
             }
         } catch (Exception e) {
-            Logger.getLogger(AuthorListController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(RoomListController.class.getName()).log(Level.SEVERE, null, e);
         }
         this.tableView.setItems(list);
     }
 
     private void initCol() {
-        this.firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        this.lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        this.nOfBooksCol.setCellValueFactory(new PropertyValueFactory<>("numberBooks"));
+        this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        this.nOfShelves.setCellValueFactory(new PropertyValueFactory<>("numberShelves"));
+        this.nOfBooks.setCellValueFactory(new PropertyValueFactory<>("numberBooks"));
     }
 
     @FXML
-    public void handleEditAuthorAction(ActionEvent actionEvent) {
-        AuthorUi selectedForEdit = this.tableView.getSelectionModel().getSelectedItem();
+    public void handleEditRoomAction(ActionEvent actionEvent) {
+        RoomUi selectedForEdit = this.tableView.getSelectionModel().getSelectedItem();
 
         if (selectedForEdit
             == null) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Author Selected", "Please Select Author For Edit");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Room Selected", "Please Select Room For Edit");
             return;
         }
 
-        AuthorDto selectedAuthorForEdit = this.dtoMapper.fromAuthorUI(selectedForEdit);
+        RoomDto selectedTypeForEdit = this.dtoMapper.fromRoomUI(selectedForEdit);
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation
-                                                                          + "add_author.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation + "add_room.fxml"));
             fxmlLoader.setControllerFactory(a -> this.applicationContext.getBean(a));
             StackPane parent = fxmlLoader.load();
 
-            AddAuthorController controller = (AddAuthorController) fxmlLoader.getController();
-            controller.inflateUI(selectedAuthorForEdit);
+            AddRoomController controller = (AddRoomController) fxmlLoader.getController();
+            controller.inflateUI(selectedTypeForEdit);
 
             BoxBlur blur = new BoxBlur(3, 3, 3);
 
@@ -129,7 +127,7 @@ public class AuthorListController implements Initializable {
                 this.handleRefreshAction(new ActionEvent());
             });
 
-            Label header = new Label("Edit Author");
+            Label header = new Label("Edit Room");
             header.getStyleClass().add("app.dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
@@ -139,47 +137,55 @@ public class AuthorListController implements Initializable {
             });
             rootAnchorPane.setEffect(blur);
         } catch (IOException e) {
-            Logger.getLogger(AuthorListController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(RoomListController.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
     @FXML
     public void handleDeleteAction(ActionEvent actionEvent) {
 
-        if (this.tableView.getSelectionModel().getSelectedItem()
+        RoomUi selectedItem = this.tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedItem
             == null) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Author Selected", "Please Select The Author");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Room Selected", "Please Select The Room");
             return;
         }
 
-        AuthorDto selectedForDeletion = this.dtoMapper.fromAuthorUI(this.tableView.getSelectionModel().getSelectedItem());
+        if (!selectedItem.getNumberShelves().equals("0")) {
+            JFXButton button = new JFXButton("OK");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Can't Delete The Room", "There Are Sill Shelves Added To This Room");
+            return;
+        }
+
+        RoomDto selectedForDeletion = this.dtoMapper.fromRoomUI(selectedItem);
 
         JFXButton yButton = new JFXButton("YES");
         JFXButton nButton = new JFXButton("NO");
         yButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-            this.authorService.deleteAuthor(selectedForDeletion.getId());
+            this.roomService.deleteRoomById(selectedForDeletion.getId());
             this.handleRefreshAction(new ActionEvent());
         });
-        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yButton, nButton), "Delete Author", "Are You Sure You Want To Delete Book - "
-                                                                                                                  + selectedForDeletion.getFirstName()
-                                                                                                                  + " "
-                                                                                                                  + selectedForDeletion.getLastName()
-                                                                                                                  + "?");
+        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yButton, nButton), "Delete Room",
+                "Are You Sure You Want To Delete This Room - "
+                + selectedForDeletion.getName()
+                + "?");
+
     }
 
     @FXML
     public void handleShowBooksListAction(ActionEvent actionEvent) {
-        AuthorUi selectedUI = this.tableView.getSelectionModel().getSelectedItem();
+        RoomUi selectedUI = this.tableView.getSelectionModel().getSelectedItem();
 
         if (selectedUI
             == null) {
             JFXButton button = new JFXButton("OK");
-            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Author Selected", "Please Select Author To Show Books");
+            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "No Publisher Selected", "Please Select Publisher To Show Books");
             return;
         }
 
-        AuthorDto selected = this.dtoMapper.fromAuthorUI(selectedUI);
+        RoomDto selected = this.dtoMapper.fromRoomUI(selectedUI);
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation + "book_list.fxml"));
@@ -192,7 +198,7 @@ public class AuthorListController implements Initializable {
             BoxBlur blur = new BoxBlur(3, 3, 3);
 
             JFXDialogLayout dialogLayout = new JFXDialogLayout();
-            JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
+            JFXDialog dialog = new JFXDialog(MainController.PRIMARY_ROOT_PANE, dialogLayout, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton("Close");
             closeButton.getStyleClass().add("app.dialog-button");
@@ -219,34 +225,73 @@ public class AuthorListController implements Initializable {
     }
 
     @FXML
+    public void handleAddRoomAction(ActionEvent actionEvent) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation + "add_room.fxml"));
+            fxmlLoader.setControllerFactory(a -> this.applicationContext.getBean(a));
+            StackPane parent = fxmlLoader.load();
+
+            AddRoomController controller = (AddRoomController) fxmlLoader.getController();
+
+            BoxBlur blur = new BoxBlur(3, 3, 3);
+
+            JFXDialogLayout dialogLayout = new JFXDialogLayout();
+            JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
+
+            JFXButton cancelButton = controller.getCancelButton();
+            cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
+                dialog.close();
+                this.handleRefreshAction(new ActionEvent());
+            });
+
+            Label header = new Label("Add Room");
+            header.getStyleClass().add("app.dialog-header");
+            dialogLayout.setHeading(header);
+            dialogLayout.setBody(parent);
+            dialog.show();
+            dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
+                rootAnchorPane.setEffect(null);
+            });
+            rootAnchorPane.setEffect(blur);
+        } catch (IOException e) {
+            Logger.getLogger(RoomListController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    @FXML
     public void handleRefreshAction(ActionEvent actionEvent) {
         this.loadData();
     }
 
-    public static class AuthorUi {
+    @FXML
+    public void handleShowShelvesListAction(ActionEvent actionEvent) {
+
+    }
+
+    public static class RoomUi {
 
         private Integer id;
-        private final SimpleStringProperty firstName;
-        private final SimpleStringProperty lastName;
+        private final SimpleStringProperty name;
+        private final SimpleStringProperty numberShelves;
         private final SimpleStringProperty numberBooks;
 
-        public AuthorUi(AuthorDto authorDto) {
-            this.id = authorDto.getId();
-            this.firstName = new SimpleStringProperty(authorDto.getFirstName());
-            this.lastName = new SimpleStringProperty(authorDto.getLastName());
-            this.numberBooks = new SimpleStringProperty(authorDto.getNBooks().toString());
-        }
-
-        public String getFirstName() {
-            return firstName.get();
-        }
-
-        public String getLastName() {
-            return lastName.get();
+        public RoomUi(RoomDto roomDto) {
+            this.id = roomDto.getId();
+            this.name = new SimpleStringProperty(roomDto.getName());
+            this.numberShelves = new SimpleStringProperty(roomDto.getNShelves().toString());
+            this.numberBooks = new SimpleStringProperty(roomDto.getNBooks().toString());
         }
 
         public Integer getId() {
             return id;
+        }
+
+        public String getName() {
+            return name.get();
+        }
+
+        public String getNumberShelves() {
+            return numberShelves.get();
         }
 
         public String getNumberBooks() {
