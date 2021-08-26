@@ -1,5 +1,6 @@
 package com.example.home_books_javafx_spring.dto.models;
 
+import com.example.home_books_javafx_spring.validator.WrongNameChoiceString;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -21,9 +22,11 @@ public class BookDto implements EntityDto {
     private String name;
 
     @NotNull(message = "You have to choose Author")
+    @WrongNameChoiceString(message = "You have to choose Author")
     private AuthorDto authorDto;
 
     @NotNull(message = "You have to choose Publisher")
+    @WrongNameChoiceString(message = "You have to choose Publisher")
     private PublisherDto publisherDto;
 
     @NotNull(message = "Book need Status")

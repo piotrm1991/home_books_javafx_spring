@@ -1,6 +1,7 @@
 package com.example.home_books_javafx_spring.dto.models;
 
-import com.example.home_books_javafx_spring.validator.NotThisString;
+import com.example.home_books_javafx_spring.validator.NoRepeatsAuthor;
+import com.example.home_books_javafx_spring.validator.WrongChoiceString;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,7 +20,8 @@ public class AuthorDto implements EntityDto {
 
     @NotEmpty(message = "Author needs Name")
     @Size(min = 3, max = 40, message = "First Name should be from 3 to 40 letters")
-    @NotThisString(message = "You have to choose Author")
+    @WrongChoiceString(message = "Prohibited name for Author")
+    @NoRepeatsAuthor(message = "Author already exists")
     private String name;
 
     private Integer nBooks;

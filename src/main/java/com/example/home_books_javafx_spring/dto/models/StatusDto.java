@@ -21,4 +21,10 @@ public class StatusDto implements EntityDto {
     private Date dateUp;
 
     private String comment;
+
+    @Override
+    public String getName() {
+        /* Nothing to do here */
+        return null;
+    }
 }

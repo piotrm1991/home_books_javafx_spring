@@ -90,4 +90,11 @@ public class AuthorService {
         Author author = this.authorRepository.findById(this.keyHolder).get();
         return this.dtoMapper.fromAuthor(author);
     }
+
+    public List<String> getAllAuthorNames() {
+        List<Author> all = this.authorRepository.findAll();
+        List<String> allNames = new ArrayList<>();
+        all.stream().forEach(author -> allNames.add(author.getName()));
+        return allNames;
+    }
 }

@@ -28,4 +28,10 @@ public class ShelfDto implements EntityDto {
     private RoomDto roomDto;
 
     private Integer nBooks;
+
+    @Override
+    public String getName() {
+        /* Nothing to do here */
+        return null;
+    }
 }

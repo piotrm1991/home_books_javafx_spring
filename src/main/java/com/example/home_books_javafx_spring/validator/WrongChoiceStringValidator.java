@@ -7,12 +7,12 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotThisStringValidator implements ConstraintValidator<NotThisString, String> {
+public class WrongChoiceStringValidator implements ConstraintValidator<WrongChoiceString, String> {
 
     List<String> notAcceptedStrings = new ArrayList<>();
 
     @Override
-    public void initialize(NotThisString NotThisString) {
+    public void initialize(WrongChoiceString WrongChoiceString) {
         this.notAcceptedStrings = FieldsConfig.STRING_FOR_CHOOSING;
     }
 

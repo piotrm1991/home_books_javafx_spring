@@ -1,6 +1,5 @@
 package com.example.home_books_javafx_spring.database.service;
 
-import com.example.home_books_javafx_spring.config.FieldsConfig;
 import com.example.home_books_javafx_spring.database.entities.Publisher;
 import com.example.home_books_javafx_spring.database.repository.PublisherRepository;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.home_books_javafx_spring.config.FieldsConfig.*;
+import static com.example.home_books_javafx_spring.config.FieldsConfig.DEFAULT_PUBLISHER_NAME;
 
 @Service
 public class PublisherService {
@@ -91,5 +90,12 @@ public class PublisherService {
     public PublisherDto getLastUpdatedPublisherDto() {
         Publisher publisher = this.publisherRepository.findById(this.keyHolder).get();
         return this.dtoMapper.fromPublisher(publisher);
+    }
+
+    public List<String> getAllPublisherNames() {
+        List<Publisher> all = this.publisherRepository.findAll();
+        List<String> allNames = new ArrayList<>();
+        all.stream().forEach(publisher -> allNames.add(publisher.getName()));
+        return allNames;
     }
 }

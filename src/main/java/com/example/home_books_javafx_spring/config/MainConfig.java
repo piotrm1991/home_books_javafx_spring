@@ -1,6 +1,9 @@
 package com.example.home_books_javafx_spring.config;
 
+import com.example.home_books_javafx_spring.util.EntityValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -9,6 +12,9 @@ import javax.sql.DataSource;
 
 @Configuration
 public class MainConfig {
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @Bean
     @Profile("dev")
@@ -28,5 +34,10 @@ public class MainConfig {
         dataSourceBuilder.username("skstudent");
         dataSourceBuilder.password("skstudent");
         return dataSourceBuilder.build();
+    }
+
+    @Bean
+    public EntityValidator entityValidator(ApplicationContext applicationContext) {
+        return new EntityValidator(applicationContext);
     }
 }

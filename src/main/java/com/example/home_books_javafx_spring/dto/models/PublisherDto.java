@@ -1,6 +1,7 @@
 package com.example.home_books_javafx_spring.dto.models;
 
-import com.example.home_books_javafx_spring.validator.NotThisString;
+import com.example.home_books_javafx_spring.validator.NoRepeatsPublisher;
+import com.example.home_books_javafx_spring.validator.WrongChoiceString;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,7 +20,8 @@ public class PublisherDto implements EntityDto {
 
     @NotEmpty
     @Size(min = 3, max = 40, message = "Publisher name have be from 3 to 40 letters")
-    @NotThisString(message = "You have to choose Publisher")
+    @WrongChoiceString(message = "Prohibited name for Publisher")
+    @NoRepeatsPublisher(message = "Publisher already exists")
     private String name;
 
     private Integer nBooks;
