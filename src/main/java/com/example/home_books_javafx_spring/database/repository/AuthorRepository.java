@@ -10,9 +10,5 @@ import java.util.Collection;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
-    Collection<Author> findAuthorsByFirstName(String firstName);
-
-    Collection<Author> findAuthorsByLastName(String lastName);
-
-    Collection<Author> findByFirstNameAndLastName(String firstName, String lastName);
+    Collection<Author> findByName(String name);
 }

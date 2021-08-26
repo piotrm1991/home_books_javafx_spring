@@ -57,7 +57,7 @@ public class AuthorService {
     @Transactional
     public void deleteAuthor(Integer id) {
         Author toDelete = this.authorRepository.findById(id).get();
-        boolean flag = toDelete.getFirstName() != FieldsConfig.DEFAULT_AUTHOR_FIRST_NAME && toDelete.getLastName() != FieldsConfig.DEFAULT_AUTHOR_LAST_NAME;
+        boolean flag = toDelete.getName() != FieldsConfig.DEFAULT_AUTHOR_NAME;
         if (flag) {
 //            Collection<Book> bookOfAuthorToDelete = this.bookRepository.findByAuthorId(id);
 //            Author defaultAuthor = this.getDefaultAuthor();
@@ -70,15 +70,15 @@ public class AuthorService {
     }
 
     private Author getDefaultAuthor() {
-        return this.authorRepository.findByFirstNameAndLastName(FieldsConfig.DEFAULT_AUTHOR_FIRST_NAME, FieldsConfig.DEFAULT_AUTHOR_LAST_NAME).stream().findAny().get();
+        return this.authorRepository.findByName(FieldsConfig.DEFAULT_AUTHOR_NAME).stream().findAny().get();
     }
 
     @Transactional
     @PostConstruct
     public void prepareDefaultAuthor() {
-        Optional<Author> first = this.authorRepository.findByFirstNameAndLastName(DEFAULT_AUTHOR_FIRST_NAME, DEFAULT_AUTHOR_LAST_NAME).stream().findFirst();
+        Optional<Author> first = this.authorRepository.findByName(DEFAULT_AUTHOR_NAME).stream().findFirst();
         if (first.isEmpty()) {
-            this.authorRepository.save(Author.builder().firstName(DEFAULT_AUTHOR_FIRST_NAME).lastName(DEFAULT_AUTHOR_LAST_NAME).build());
+            this.authorRepository.save(Author.builder().name(DEFAULT_AUTHOR_NAME).build());
         }
     }
 

@@ -8,8 +8,7 @@
             <children>
                 <TableView fx:id="tableView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                        <TableColumn fx:id="firstNameCol" prefWidth="150.0" text="First Name"/>
-                        <TableColumn fx:id="lastNameCol" prefWidth="150.0" text="Last Name"/>
+                        <TableColumn fx:id="nameCol" prefWidth="150.0" text="Name"/>
                         <TableColumn fx:id="nOfBooksCol" prefWidth="150.0" text="N. Of Books"/>
                     </columns>
                     <columnResizePolicy>

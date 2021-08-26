@@ -38,9 +38,7 @@ public class AddAuthorController implements Initializable {
     @FXML
     private AnchorPane rootAnchorPane;
     @FXML
-    private JFXTextField firstName;
-    @FXML
-    private JFXTextField lastName;
+    private JFXTextField name;
     @FXML
     private JFXButton saveButton;
     @FXML
@@ -61,13 +59,11 @@ public class AddAuthorController implements Initializable {
     public void addAuthor(ActionEvent actionEvent) {
 
         this.isSaved = false;
-        String firstName = this.firstName.getText();
-        String lastName = this.lastName.getText();
+        String name = this.name.getText();
 
         AuthorDto authorDto = AuthorDto.builder()
                 .id(this.authorId)
-                .firstName(firstName)
-                .lastName(lastName)
+                .name(name)
                 .build();
 
         Set<ConstraintViolation<EntityDto>> errors = this.entityValidator.validateEntity(authorDto);
@@ -87,8 +83,7 @@ public class AddAuthorController implements Initializable {
 
     public void inflateUI(AuthorDto authorDto) {
         this.authorId = authorDto.getId();
-        this.firstName.setText(authorDto.getFirstName());
-        this.lastName.setText(authorDto.getLastName());
+        this.name.setText(authorDto.getName());
     }
 
     public List<JFXButton> getControls() {

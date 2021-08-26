@@ -2,12 +2,12 @@ package com.example.home_books_javafx_spring.config;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-@Component
+@Configuration
 public class MainConfig {
 
     @Bean

@@ -139,8 +139,7 @@ public class DtoMapper {
     public AuthorDto fromAuthor(Author author) {
         AuthorDto authorDto = AuthorDto.builder()
                 .id(author.getId())
-                .firstName(author.getFirstName())
-                .lastName(author.getLastName())
+                .name(author.getName())
                 .nBooks(this.bookService.countBooksByAuthorId(author.getId()))
                 .build();
         return authorDto;
@@ -149,8 +148,7 @@ public class DtoMapper {
     public Author fromAuthorDto(AuthorDto authorDto) {
         Author author = Author.builder()
                 .id(authorDto.getId())
-                .firstName(authorDto.getFirstName())
-                .lastName(authorDto.getLastName())
+                .name(authorDto.getName())
                 .build();
         return author;
     }
@@ -158,8 +156,7 @@ public class DtoMapper {
     public AuthorDto fromAuthorUI(AuthorUi authorUi) {
         AuthorDto authorDto = AuthorDto.builder()
                 .id(authorUi.getId())
-                .firstName(authorUi.getFirstName())
-                .lastName(authorUi.getLastName())
+                .name(authorUi.getName())
                 .nBooks(Integer.valueOf(authorUi.getNumberBooks()))
                 .build();
         return authorDto;

@@ -11,8 +11,13 @@ import java.util.Set;
 
 @Component
 public class EntityValidator {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
+    ValidatorFactory factory;
+    Validator validator;
+
+    public EntityValidator() {
+        this.factory = Validation.buildDefaultValidatorFactory();
+        this.validator = factory.getValidator();
+    }
 
     public Set<ConstraintViolation<EntityDto>> validateEntity(EntityDto entityDto) {
         return validator.validate(entityDto);

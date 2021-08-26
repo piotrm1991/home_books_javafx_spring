@@ -123,7 +123,7 @@ public class DialogMaker {
             header.getStyleClass().add("app.dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
-            dialogLayout.setMinWidth(900);
+            dialogLayout.setMinWidth(700);
             dialog.show();
             dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
                 rootAnchorPane.setEffect(null);

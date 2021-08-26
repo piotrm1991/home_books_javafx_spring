@@ -59,9 +59,7 @@ public class AuthorListController implements Initializable {
     @FXML
     public AnchorPane rootAnchorPane;
     @FXML
-    public TableColumn<AuthorUi, String> firstNameCol;
-    @FXML
-    public TableColumn<AuthorUi, String> lastNameCol;
+    public TableColumn<AuthorUi, String> nameCol;
     @FXML
     public TableColumn<AuthorUi, String> nOfBooksCol;
     @FXML
@@ -90,8 +88,7 @@ public class AuthorListController implements Initializable {
     }
 
     private void initCol() {
-        this.firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        this.lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.nOfBooksCol.setCellValueFactory(new PropertyValueFactory<>("numberBooks"));
     }
 
@@ -162,9 +159,7 @@ public class AuthorListController implements Initializable {
             this.handleRefreshAction(new ActionEvent());
         });
         AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yButton, nButton), "Delete Author", "Are You Sure You Want To Delete Book - "
-                                                                                                                  + selectedForDeletion.getFirstName()
-                                                                                                                  + " "
-                                                                                                                  + selectedForDeletion.getLastName()
+                                                                                                                  + selectedForDeletion.getName()
                                                                                                                   + "?");
     }
 
@@ -226,23 +221,17 @@ public class AuthorListController implements Initializable {
     public static class AuthorUi {
 
         private Integer id;
-        private final SimpleStringProperty firstName;
-        private final SimpleStringProperty lastName;
+        private final SimpleStringProperty name;
         private final SimpleStringProperty numberBooks;
 
         public AuthorUi(AuthorDto authorDto) {
             this.id = authorDto.getId();
-            this.firstName = new SimpleStringProperty(authorDto.getFirstName());
-            this.lastName = new SimpleStringProperty(authorDto.getLastName());
+            this.name = new SimpleStringProperty(authorDto.getName());
             this.numberBooks = new SimpleStringProperty(authorDto.getNBooks().toString());
         }
 
-        public String getFirstName() {
-            return firstName.get();
-        }
-
-        public String getLastName() {
-            return lastName.get();
+        public String getName() {
+            return name.get();
         }
 
         public Integer getId() {

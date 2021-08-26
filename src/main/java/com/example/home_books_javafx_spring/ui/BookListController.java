@@ -247,9 +247,7 @@ public class BookListController implements Initializable {
         public BookUi(BookDto bookDto) {
             this.id = bookDto.getId();
             this.title = new SimpleStringProperty(bookDto.getName());
-            this.author = new SimpleStringProperty(bookDto.getAuthorDto().getFirstName()
-                                                   + " "
-                                                   + bookDto.getAuthorDto().getLastName());
+            this.author = new SimpleStringProperty(bookDto.getAuthorDto().getName());
             this.publisher = new SimpleStringProperty(bookDto.getPublisherDto().getName());
             this.status = new SimpleStringProperty(bookDto.getStatusDto().getStatusTypeDto().getName());
             this.room = new SimpleStringProperty(bookDto.getShelfDto().getRoomDto().getName());

@@ -15,14 +15,9 @@
             <children>
                 <VBox layoutY="-23.0" prefHeight="112.0" prefWidth="367.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <JFXTextField fx:id="firstName" labelFloat="true" promptText="First Name">
+                        <JFXTextField fx:id="name" labelFloat="true" promptText="Name">
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
-                            </VBox.margin>
-                        </JFXTextField>
-                        <JFXTextField fx:id="lastName" labelFloat="true" layoutX="20.0" layoutY="60.0" promptText="Last Name">
-                            <VBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                             </VBox.margin>
                         </JFXTextField>
                         <HBox prefHeight="48.0" prefWidth="530.0" spacing="100.0">

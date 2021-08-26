@@ -1,7 +1,6 @@
 package com.example.home_books_javafx_spring.ui;
 
 import com.example.home_books_javafx_spring.database.service.*;
-import com.example.home_books_javafx_spring.dto.DtoMapper;
 import com.example.home_books_javafx_spring.dto.models.*;
 import com.example.home_books_javafx_spring.util.AlertMaker;
 import com.example.home_books_javafx_spring.util.DialogMaker;
@@ -25,7 +24,10 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 import static com.example.home_books_javafx_spring.config.FieldsConfig.*;
 
@@ -34,9 +36,6 @@ public class AddBookController implements Initializable {
 
     @Autowired
     BookService bookService;
-
-    @Autowired
-    DtoMapper dtoMapper;
 
     @Autowired
     EntityValidator entityValidator;
@@ -86,27 +85,13 @@ public class AddBookController implements Initializable {
     @FXML
     private ComboBox<PublisherDto> comboBoxPublisher;
     @FXML
-    private JFXCheckBox checkBoxNewPublisher;
+    private JFXComboBox<AuthorDto> comboBoxAuthor;
     @FXML
-    private JFXDrawer drawerPublisher;
+    private JFXComboBox<RoomDto> comboBoxRoom;
     @FXML
-    private ComboBox<AuthorDto> comboBoxAuthor;
-    @FXML
-    private JFXCheckBox checkBoxNewAuthor;
-    @FXML
-    private JFXDrawer drawerAuthor;
-    @FXML
-    private ComboBox<RoomDto> comboBoxRoom;
-    @FXML
-    private ComboBox<StatusTypeDto> comboBoxStatusType;
+    private JFXComboBox<StatusTypeDto> comboBoxStatusType;
     @FXML
     private JFXTextArea comment;
-    @FXML
-    private JFXTextField newPublisherName;
-    @FXML
-    private JFXTextField newAuthorFirstName;
-    @FXML
-    private JFXTextField newAuthorLastName;
 
     private Integer bookId;
 
@@ -114,7 +99,6 @@ public class AddBookController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.initDrawers();
         this.prepareLists();
         this.prepareComboBoxes();
         this.comboBoxShelf.setDisable(true);
@@ -139,11 +123,6 @@ public class AddBookController implements Initializable {
         this.prepareStatusTypeComboBox();
     }
 
-    private void initDrawers() {
-        this.initAuthorDrawer();
-        this.initPublisherDrawer();
-    }
-
     private void prepareRoomList() {
         this.roomList = FXCollections.observableList(this.roomService.getAllRoomsDto());
         RoomDto roomDto = this.roomList.stream().filter(r -> r.getName().equals(DEFAULT_ROOM_NAME)).findFirst().get();
@@ -151,38 +130,42 @@ public class AddBookController implements Initializable {
     }
 
     private void addActionListenerToAuthorComboBox() {
-         this.comboBoxAuthor.valueProperty().addListener(new ChangeListener<AuthorDto>() {
-             @Override
-             public void changed(ObservableValue<? extends AuthorDto> observable, AuthorDto oldValue, AuthorDto newValue) {
-                 if (newValue!= null && (newValue.getFirstName() + newValue.getLastName()).equals(DEFAULT_NEW_AUTHOR_FIRST_NAME + DEFAULT_NEW_AUTHOR_LAST_NAME)) {
-                     JFXDialog dialog = dialogMaker.showAddEditAuthorDialog(rootPane, rootAnchorPane);
-                     JFXButton saveButton = addAuthorController.getSaveButton();
-                     JFXButton cancelButton = addAuthorController.getCancelButton();
-                     saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                         if (addAuthorController.isSaved()) {
-                             dialog.close();
-                             authorList.clear();
-                             prepareAuthorList();
-                             AuthorDto newAuthorDto = authorService.getLastUpdatedAuthorDto();
-                             comboBoxAuthor.setItems(authorList);
-                             comboBoxAuthor.setValue(authorList.stream().filter(authorDto -> authorDto.equals(newAuthorDto))
-                                     .findFirst()
-                                     .get());
-                         }
-                     });
-                     cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                         comboBoxAuthor.setValue(authorList.stream().filter(authorDto -> (authorDto.getFirstName()+authorDto.getLastName()).equals(DEFAULT_AUTHOR_FIRST_NAME+DEFAULT_AUTHOR_LAST_NAME)).findFirst().get());
-                     });
-                 }
-             }
-         });
+        this.comboBoxAuthor.valueProperty().addListener(new ChangeListener<AuthorDto>() {
+            @Override
+            public void changed(ObservableValue<? extends AuthorDto> observable, AuthorDto oldValue, AuthorDto newValue) {
+                if (newValue
+                    != null
+                    && (newValue.getName()).equals(DEFAULT_NEW_AUTHOR_NAME)) {
+                    JFXDialog dialog = dialogMaker.showAddEditAuthorDialog(rootPane, rootAnchorPane);
+                    JFXButton saveButton = addAuthorController.getSaveButton();
+                    JFXButton cancelButton = addAuthorController.getCancelButton();
+                    saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
+                        if (addAuthorController.isSaved()) {
+                            dialog.close();
+                            authorList.clear();
+                            prepareAuthorList();
+                            AuthorDto newAuthorDto = authorService.getLastUpdatedAuthorDto();
+                            comboBoxAuthor.setItems(authorList);
+                            comboBoxAuthor.setValue(authorList.stream().filter(authorDto -> authorDto.equals(newAuthorDto))
+                                    .findFirst()
+                                    .get());
+                        }
+                    });
+                    cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
+                        comboBoxAuthor.setValue(authorList.stream().filter(authorDto -> authorDto.getName().equals(DEFAULT_AUTHOR_NAME)).findFirst().get());
+                    });
+                }
+            }
+        });
     }
 
     private void addActionListenerToPublisherComboBox() {
         this.comboBoxPublisher.valueProperty().addListener(new ChangeListener<PublisherDto>() {
             @Override
             public void changed(ObservableValue<? extends PublisherDto> observable, PublisherDto oldValue, PublisherDto newValue) {
-                if (newValue!= null && newValue.getName().equals(DEFAULT_NEW_PUBLISHER_NAME)) {
+                if (newValue
+                    != null
+                    && newValue.getName().equals(DEFAULT_NEW_PUBLISHER_NAME)) {
                     JFXDialog dialog = dialogMaker.showAddEditPublisherDialog(rootPane, rootAnchorPane);
                     JFXButton saveButton = addPublisherController.getSaveButton();
                     JFXButton cancelButton = addPublisherController.getCancelButton();
@@ -214,7 +197,8 @@ public class AddBookController implements Initializable {
                 .publisherDto(this.comboBoxPublisher.getValue())
                 .shelfDto(this.comboBoxShelf.getValue())
                 .statusDto(StatusDto.builder()
-                        .id(this.statusOfEditBook == null ? null : this.statusOfEditBook.getId())
+                        .id(this.statusOfEditBook
+                            == null ? null : this.statusOfEditBook.getId())
                         .statusTypeDto(this.comboBoxStatusType.getValue())
                         .comment(this.comment.getText())
                         .dateUp(new Date(System.currentTimeMillis()))
@@ -242,8 +226,8 @@ public class AddBookController implements Initializable {
 
     private void prepareAuthorList() {
         this.authorList = FXCollections.observableList(this.authorService.getAllAuthorsDto());
-        AuthorDto authorDtoDefault = this.authorList.stream().filter(r -> (r.getFirstName() + r.getLastName()).equals(DEFAULT_AUTHOR_FIRST_NAME + DEFAULT_AUTHOR_LAST_NAME)).findFirst().get();
-        AuthorDto authorDtoNew = AuthorDto.builder().firstName(DEFAULT_NEW_AUTHOR_FIRST_NAME).lastName(DEFAULT_NEW_AUTHOR_LAST_NAME).build();
+        AuthorDto authorDtoDefault = this.authorList.stream().filter(r -> r.getName().equals(DEFAULT_AUTHOR_NAME)).findFirst().get();
+        AuthorDto authorDtoNew = AuthorDto.builder().name(DEFAULT_NEW_AUTHOR_NAME).build();
         this.authorList.add(authorDtoNew);
         HomeBooksUtil.setTopItem(this.authorList, HomeBooksUtil.findPosition(this.authorList, authorDtoNew));
         HomeBooksUtil.setTopItem(this.authorList, HomeBooksUtil.findPosition(this.authorList, authorDtoDefault));
@@ -254,6 +238,7 @@ public class AddBookController implements Initializable {
         PublisherDto publisherDtoDefault = this.publisherList.stream().filter(r -> r.getName().equals(DEFAULT_PUBLISHER_NAME)).findFirst().get();
         PublisherDto publisherDtoNew = PublisherDto.builder().name(DEFAULT_NEW_PUBLISHER_NAME).build();
         this.publisherList.add(publisherDtoNew);
+        this.publisherList.add(PublisherDto.builder().name("Choose Publisher").build());
         HomeBooksUtil.setTopItem(this.publisherList, HomeBooksUtil.findPosition(this.publisherList, publisherDtoNew));
         HomeBooksUtil.setTopItem(this.publisherList, HomeBooksUtil.findPosition(this.publisherList, publisherDtoDefault));
     }
@@ -268,42 +253,6 @@ public class AddBookController implements Initializable {
         this.prepareAuthorList();
         this.preparePublisherList();
         this.prepareStatusTypeList();
-    }
-
-    private void initAuthorDrawer() {
-        drawerAuthor.setMinWidth(0);
-        drawerAuthor.setMinHeight(0);
-        checkBoxNewAuthor.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-            drawerAuthor.toggle();
-        });
-        drawerAuthor.setOnDrawerOpening((event) -> {
-            drawerAuthor.setMinWidth(300);
-            drawerAuthor.setMinHeight(70);
-            comboBoxAuthor.setDisable(true);
-        });
-        drawerAuthor.setOnDrawerClosed((event) -> {
-            drawerAuthor.setMinWidth(0);
-            drawerAuthor.setMinHeight(0);
-            comboBoxAuthor.setDisable(false);
-        });
-    }
-
-    private void initPublisherDrawer() {
-        drawerPublisher.setMinWidth(0);
-        drawerPublisher.setMinHeight(0);
-        checkBoxNewPublisher.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
-            drawerPublisher.toggle();
-        });
-        drawerPublisher.setOnDrawerOpening((event) -> {
-            drawerPublisher.setMinWidth(300);
-            drawerPublisher.setMinHeight(25);
-            comboBoxPublisher.setDisable(true);
-        });
-        drawerPublisher.setOnDrawerClosed((event) -> {
-            drawerPublisher.setMinWidth(0);
-            drawerPublisher.setMinHeight(0);
-            comboBoxPublisher.setDisable(false);
-        });
     }
 
     private void prepareStatusTypeComboBox() {
@@ -374,32 +323,26 @@ public class AddBookController implements Initializable {
     private void prepareAuthorComboBox() {
         this.comboBoxAuthor.setItems(this.authorList);
         this.comboBoxAuthor.setValue(this.authorList.stream().filter(r -> (
-                r.getFirstName()
-                + " "
-                + r.getLastName())
-                .equals(DEFAULT_AUTHOR_FIRST_NAME + " " + DEFAULT_AUTHOR_LAST_NAME))
+                r.getName()
+                        .equals(DEFAULT_AUTHOR_NAME)))
                 .findFirst()
                 .get());
         this.comboBoxAuthor.setConverter(new StringConverter<AuthorDto>() {
             @Override
             public String toString(AuthorDto object) {
-                return object.getFirstName()
-                       + " "
-                       + object.getLastName();
+                return object.getName();
             }
 
             @Override
             public AuthorDto fromString(String string) {
-                return comboBoxAuthor.getItems().stream().filter(r -> (r.getFirstName()
-                                                                       + " "
-                                                                       + r.getLastName()).equals(string)).findFirst().orElse(null);
+                return comboBoxAuthor.getItems().stream().filter(r -> (r.getName()).equals(string)).findFirst().orElse(null);
             }
         });
     }
 
     private void preparePublisherComboBox() {
         this.comboBoxPublisher.setItems(this.publisherList);
-        this.comboBoxPublisher.setValue(this.publisherList.stream().filter(r -> r.getName().equals(DEFAULT_PUBLISHER_NAME)).findFirst().get());
+        this.comboBoxPublisher.setValue(PublisherDto.builder().name("Choose Publisher").build());
         this.comboBoxPublisher.setConverter(new StringConverter<PublisherDto>() {
             @Override
             public String toString(PublisherDto object) {

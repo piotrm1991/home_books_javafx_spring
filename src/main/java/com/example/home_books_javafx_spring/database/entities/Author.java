@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity(name = "Author")
@@ -22,18 +21,12 @@ public class Author {
     @Column(name = "id_author")
     private Integer id;
 
-    @Column(name = "first_name")
+    @Column(name = "name")
     @NotEmpty
-    @Size(min = 2, max = 40)
-    private String firstName;
+    @Size(min = 3, max = 40)
+    private String name;
 
-    @Column(name = "last_name")
-    @NotEmpty
-    @Size(min = 2, max = 40)
-    private String lastName;
-
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Author(String name) {
+        this.name = name;
     }
 }

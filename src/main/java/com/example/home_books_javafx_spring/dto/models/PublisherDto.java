@@ -1,5 +1,6 @@
 package com.example.home_books_javafx_spring.dto.models;
 
+import com.example.home_books_javafx_spring.validator.NotThisString;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -17,7 +18,8 @@ public class PublisherDto implements EntityDto {
     private Integer id;
 
     @NotEmpty
-    @Size(min = 2, max = 40, message = "Publisher name should be from 2 to 40 letters")
+    @Size(min = 3, max = 40, message = "Publisher name have be from 3 to 40 letters")
+    @NotThisString(message = "You have to choose Publisher")
     private String name;
 
     private Integer nBooks;
