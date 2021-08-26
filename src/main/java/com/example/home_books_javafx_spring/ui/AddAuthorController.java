@@ -1,7 +1,6 @@
 package com.example.home_books_javafx_spring.ui;
 
 import com.example.home_books_javafx_spring.database.service.AuthorService;
-import com.example.home_books_javafx_spring.dto.DtoMapper;
 import com.example.home_books_javafx_spring.dto.models.AuthorDto;
 import com.example.home_books_javafx_spring.dto.models.EntityDto;
 import com.example.home_books_javafx_spring.util.AlertMaker;
@@ -13,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

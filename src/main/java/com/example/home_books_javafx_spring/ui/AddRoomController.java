@@ -1,6 +1,5 @@
 package com.example.home_books_javafx_spring.ui;
 
-import com.example.home_books_javafx_spring.database.service.AuthorService;
 import com.example.home_books_javafx_spring.database.service.RoomService;
 import com.example.home_books_javafx_spring.dto.models.EntityDto;
 import com.example.home_books_javafx_spring.dto.models.RoomDto;

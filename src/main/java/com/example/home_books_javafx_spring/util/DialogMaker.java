@@ -52,7 +52,7 @@ public class DialogMaker {
             });
 
             Label header = new Label("Add Publisher");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -86,7 +86,7 @@ public class DialogMaker {
             });
 
             Label header = new Label("Add Author");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -120,7 +120,7 @@ public class DialogMaker {
             });
 
             Label header = new Label("Add Book");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialogLayout.setMinWidth(700);
@@ -153,7 +153,7 @@ public class DialogMaker {
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Book List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -183,11 +183,11 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Author List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -217,11 +217,11 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Publisher List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -251,11 +251,11 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Settings");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -285,11 +285,11 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Status Type List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -320,11 +320,11 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Room List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -355,11 +355,11 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Shelf List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();

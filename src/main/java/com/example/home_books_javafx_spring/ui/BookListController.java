@@ -121,10 +121,10 @@ public class BookListController implements Initializable {
             });
 
             Label header = new Label("Edit Book");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
-            dialogLayout.setMinWidth(900);
+            dialogLayout.setMinWidth(700);
             dialog.show();
             dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
                 rootAnchorPane.setEffect(null);

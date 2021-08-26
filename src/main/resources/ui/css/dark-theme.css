@@ -102,7 +102,7 @@
 }
 
 .jfx-dialog-layout {
-    -fx-background-color: derive(-fx-primary, -30%)
+    -fx-background-color: derive(-fx-primary, -30%);
 }
 
 .dialog-header {

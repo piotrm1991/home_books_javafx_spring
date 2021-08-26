@@ -136,7 +136,7 @@ public class ShelfListController implements Initializable {
             });
 
             Label header = new Label("Edit Shelf");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();
@@ -208,7 +208,7 @@ public class ShelfListController implements Initializable {
             JFXDialog dialog = new JFXDialog(MainController.PRIMARY_ROOT_PANE, dialogLayout, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton("Close");
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
                 this.handleRefreshAction(new ActionEvent());
@@ -216,7 +216,7 @@ public class ShelfListController implements Initializable {
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Book List");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialogLayout.setMinWidth(1300);
@@ -253,7 +253,7 @@ public class ShelfListController implements Initializable {
             });
 
             Label header = new Label("Add Shelf");
-            header.getStyleClass().add("app.dialog-header");
+            header.getStyleClass().add("dialog-header");
             dialogLayout.setHeading(header);
             dialogLayout.setBody(parent);
             dialog.show();

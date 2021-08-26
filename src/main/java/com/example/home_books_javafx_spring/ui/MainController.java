@@ -144,14 +144,14 @@ public class MainController implements Initializable {
 //            JFXDialogLayout dialogLayout = new JFXDialogLayout();
 //            JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
 //
-//            closeButton.getStyleClass().add("app.dialog-button");
+//            closeButton.getStyleClass().add("dialog-button");
 //            closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
 //                dialog.close();
 //            });
 //            List<JFXButton> controls = Arrays.asList(closeButton);
 //
 //            Label header = new Label("Book List");
-//            header.getStyleClass().add("app.dialog-header");
+//            header.getStyleClass().add("dialog-header");
 //            dialogLayout.setHeading(header);
 //            dialogLayout.setBody(parent);
 //            dialogLayout.setMinWidth(1300);
