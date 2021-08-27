@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
@@ -149,7 +150,7 @@ public class DialogMaker {
             closeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                 dialog.close();
             });
-            closeButton.getStyleClass().add("app.dialog-button");
+            closeButton.getStyleClass().add("dialog-button");
             List<JFXButton> controls = Arrays.asList(closeButton);
 
             Label header = new Label("Book List");
