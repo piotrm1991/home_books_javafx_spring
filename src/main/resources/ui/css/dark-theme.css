@@ -109,7 +109,7 @@
     -fx-padding: 0em 1em 0em 1em;
     -jfx-focus-color: -fx-secondary;
     -jfx-unfocus-color: -fx-primaryText;
-    -jfx-prompt-text-fill: -fx-primaryText;
+    -fx-prompt-text-fill: -fx-primaryText;
 }
 
 .jfx-combo-box:focused {
@@ -142,7 +142,7 @@
 .combo-box-popup .list-cell:hover {
     -fx-background-color: derive(-fx-primary, 5%);
     -fx-border-color: derive(-fx-primary, 5%);
-    -fx-text-fill: -fx-secondary;
+    -fx-text-fill: -fx-primaryText;
 }
 
 .submission-container {
