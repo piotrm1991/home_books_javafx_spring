@@ -19,6 +19,9 @@ public class WrongNameChoiceStringValidator implements ConstraintValidator<Wrong
 
     @Override
     public boolean isValid(EntityDto value, ConstraintValidatorContext context) {
+        if (value == null) {
+            return false;
+        }
         return this.notAcceptedStrings.stream().filter(s -> s.equals(value.getName())).findFirst().isEmpty();
     }
 }

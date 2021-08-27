@@ -21,11 +21,9 @@ public class BookDto implements EntityDto {
     @Size(min = 2, max = 40, message = "Title should have from 2 to 40 letters")
     private String name;
 
-    @NotNull(message = "You have to choose Author")
     @WrongNameChoiceString(message = "You have to choose Author")
     private AuthorDto authorDto;
 
-    @NotNull(message = "You have to choose Publisher")
     @WrongNameChoiceString(message = "You have to choose Publisher")
     private PublisherDto publisherDto;
 

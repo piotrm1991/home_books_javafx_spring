@@ -14,9 +14,9 @@
     <children>
         <AnchorPane fx:id="rootAnchorPane" prefWidth="700.0">
             <children>
-                <VBox layoutY="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox layoutX="-7.0" layoutY="7.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0">
                     <children>
-                        <JFXTextField fx:id="title" labelFloat="true" prefWidth="300.0" promptText="Title" styleClass="text-field">
+                        <JFXTextField fx:id="title" labelFloat="true" prefHeight="35.0" prefWidth="300.0" promptText="Title" styleClass="text-field">
                             <VBox.margin>
                                 <Insets left="20.0" right="20.0" top="20.0" />
                             </VBox.margin>
@@ -28,8 +28,8 @@
                             <children>
                                 <AnchorPane prefWidth="700.0">
                                     <children>
-                                        <JFXComboBox fx:id="comboBoxPublisher" prefWidth="300.0" promptText="Publisher" AnchorPane.leftAnchor="0.0" />
-                                        <JFXComboBox fx:id="comboBoxAuthor" layoutX="300.0" prefWidth="300.0" promptText="Author" AnchorPane.rightAnchor="0.0" />
+                                        <JFXComboBox fx:id="comboBoxPublisher" prefHeight="35.0" prefWidth="300.0" promptText="Choose Publisher" AnchorPane.leftAnchor="0.0" />
+                                        <JFXComboBox fx:id="comboBoxAuthor" layoutX="300.0" prefHeight="35.0" prefWidth="300.0" promptText="Choose Author" AnchorPane.rightAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
                             </children>
@@ -39,12 +39,12 @@
                         </HBox>
                         <HBox prefWidth="700.0">
                             <children>
-                                <JFXComboBox fx:id="comboBoxRoom" prefWidth="300.0" promptText="Room">
+                                <JFXComboBox fx:id="comboBoxRoom" prefHeight="35.0" prefWidth="300.0" promptText="Choose Room">
                                     <HBox.margin>
                                         <Insets right="60.0" />
                                     </HBox.margin>
                                 </JFXComboBox>
-                                <JFXComboBox fx:id="comboBoxShelf" layoutX="10.0" layoutY="10.0" prefWidth="150.0" promptText="Letter - Number">
+                                <JFXComboBox fx:id="comboBoxShelf" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="150.0" promptText="Letter - Number">
                                     <HBox.margin>
                                         <Insets bottom="20.0" right="20.0" />
                                     </HBox.margin>
@@ -58,7 +58,7 @@
                             <children>
                                 <VBox alignment="CENTER">
                                     <children>
-                                        <JFXComboBox fx:id="comboBoxStatusType" prefWidth="300.0" promptText="State" />
+                                        <JFXComboBox fx:id="comboBoxStatusType" prefHeight="35.0" prefWidth="350.0" promptText="Status" />
                                     </children>
                                 </VBox>
                                 <JFXTextArea fx:id="comment" labelFloat="true" promptText="Comment" styleClass="text-field">

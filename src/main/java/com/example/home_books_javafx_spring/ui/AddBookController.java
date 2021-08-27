@@ -152,7 +152,7 @@ public class AddBookController implements Initializable {
                         }
                     });
                     cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                        comboBoxAuthor.setValue(authorList.stream().filter(authorDto -> authorDto.getName().equals(DEFAULT_CHOOSE_AUTHOR_NAME)).findFirst().get());
+                        comboBoxAuthor.setValue(null);
                     });
                 }
             }
@@ -180,7 +180,7 @@ public class AddBookController implements Initializable {
                         }
                     });
                     cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                        comboBoxPublisher.setValue(publisherList.stream().filter(publisherDto -> publisherDto.getName().equals(DEFAULT_CHOOSE_PUBLISHER_NAME)).findFirst().get());
+                        comboBoxPublisher.setValue(null);
                     });
                 }
             }
@@ -228,24 +228,24 @@ public class AddBookController implements Initializable {
         this.authorList = FXCollections.observableList(this.authorService.getAllAuthorsDto());
         AuthorDto authorDtoDefault = this.authorList.stream().filter(r -> r.getName().equals(DEFAULT_AUTHOR_NAME)).findFirst().get();
         AuthorDto authorDtoNew = AuthorDto.builder().name(DEFAULT_NEW_AUTHOR_NAME).build();
-        AuthorDto authorDtoChoose = AuthorDto.builder().name(DEFAULT_CHOOSE_AUTHOR_NAME).build();
+//        AuthorDto authorDtoChoose = AuthorDto.builder().name(DEFAULT_CHOOSE_AUTHOR_NAME).build();
         this.authorList.add(authorDtoNew);
-        this.authorList.add(authorDtoChoose);
+//        this.authorList.add(authorDtoChoose);
         HomeBooksUtil.setTopItem(this.authorList, HomeBooksUtil.findPosition(this.authorList, authorDtoNew));
         HomeBooksUtil.setTopItem(this.authorList, HomeBooksUtil.findPosition(this.authorList, authorDtoDefault));
-        HomeBooksUtil.setTopItem(this.authorList, HomeBooksUtil.findPosition(this.authorList, authorDtoChoose));
+//        HomeBooksUtil.setTopItem(this.authorList, HomeBooksUtil.findPosition(this.authorList, authorDtoChoose));
     }
 
     private void preparePublisherList() {
         this.publisherList = FXCollections.observableList(this.publisherService.getAllPublishersDto());
         PublisherDto publisherDtoDefault = this.publisherList.stream().filter(r -> r.getName().equals(DEFAULT_PUBLISHER_NAME)).findFirst().get();
         PublisherDto publisherDtoNew = PublisherDto.builder().name(DEFAULT_NEW_PUBLISHER_NAME).build();
-        PublisherDto publisherDtoChoose = PublisherDto.builder().name(DEFAULT_CHOOSE_PUBLISHER_NAME).build();
+//        PublisherDto publisherDtoChoose = PublisherDto.builder().name(DEFAULT_CHOOSE_PUBLISHER_NAME).build();
         this.publisherList.add(publisherDtoNew);
-        this.publisherList.add(publisherDtoChoose);
+//        this.publisherList.add(publisherDtoChoose);
         HomeBooksUtil.setTopItem(this.publisherList, HomeBooksUtil.findPosition(this.publisherList, publisherDtoNew));
         HomeBooksUtil.setTopItem(this.publisherList, HomeBooksUtil.findPosition(this.publisherList, publisherDtoDefault));
-        HomeBooksUtil.setTopItem(this.publisherList, HomeBooksUtil.findPosition(this.publisherList, publisherDtoChoose));
+//        HomeBooksUtil.setTopItem(this.publisherList, HomeBooksUtil.findPosition(this.publisherList, publisherDtoChoose));
     }
 
     private void prepareStatusTypeList() {
@@ -262,7 +262,7 @@ public class AddBookController implements Initializable {
 
     private void prepareStatusTypeComboBox() {
         this.comboBoxStatusType.setItems(this.statusTypeList);
-        this.comboBoxStatusType.setValue(this.statusTypeList.stream().filter(st -> st.getName().equals(DEFAULT_STATUS_TYPE)).findFirst().get());
+//        this.comboBoxStatusType.setValue(this.statusTypeList.stream().filter(st -> st.getName().equals(DEFAULT_STATUS_TYPE)).findFirst().get());
         this.comboBoxStatusType.setConverter(new StringConverter<StatusTypeDto>() {
             @Override
             public String toString(StatusTypeDto object) {
@@ -278,7 +278,6 @@ public class AddBookController implements Initializable {
 
     private void prepareRoomComboBox() {
         this.comboBoxRoom.setItems(this.roomList);
-        this.comboBoxRoom.setValue(this.roomList.stream().filter(r -> r.getName().equals(DEFAULT_ROOM_NAME)).findFirst().get());
         this.comboBoxRoom.setConverter(new StringConverter<RoomDto>() {
             @Override
             public String toString(RoomDto object) {
@@ -327,11 +326,11 @@ public class AddBookController implements Initializable {
 
     private void prepareAuthorComboBox() {
         this.comboBoxAuthor.setItems(this.authorList);
-        this.comboBoxAuthor.setValue(this.authorList.stream().filter(r -> (
-                r.getName()
-                        .equals(DEFAULT_CHOOSE_AUTHOR_NAME)))
-                .findFirst()
-                .get());
+//        this.comboBoxAuthor.setValue(this.authorList.stream().filter(r -> (
+//                r.getName()
+//                        .equals(DEFAULT_CHOOSE_AUTHOR_NAME)))
+//                .findFirst()
+//                .get());
         this.comboBoxAuthor.setConverter(new StringConverter<AuthorDto>() {
             @Override
             public String toString(AuthorDto object) {
@@ -347,11 +346,11 @@ public class AddBookController implements Initializable {
 
     private void preparePublisherComboBox() {
         this.comboBoxPublisher.setItems(this.publisherList);
-        this.comboBoxPublisher.setValue(this.publisherList.stream().filter(r -> (
-                r.getName()
-                        .equals(DEFAULT_CHOOSE_PUBLISHER_NAME)))
-                .findFirst()
-                .get());
+//        this.comboBoxPublisher.setValue(this.publisherList.stream().filter(r -> (
+//                r.getName()
+//                        .equals(DEFAULT_CHOOSE_PUBLISHER_NAME)))
+//                .findFirst()
+//                .get());
         this.comboBoxPublisher.setConverter(new StringConverter<PublisherDto>() {
             @Override
             public String toString(PublisherDto object) {
