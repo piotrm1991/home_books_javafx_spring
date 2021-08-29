@@ -25,4 +25,24 @@ public class PublisherDto implements EntityDto {
     private String name;
 
     private Integer nBooks;
+
+    @Override
+    public PublisherDto getPublisherDto() {
+        return null;
+    }
+
+    @Override
+    public AuthorDto getAuthorDto() {
+        return null;
+    }
+
+    @Override
+    public ShelfDto getShelfDto() {
+        return null;
+    }
+
+    @Override
+    public StatusDto getStatusDto() {
+        return null;
+    }
 }

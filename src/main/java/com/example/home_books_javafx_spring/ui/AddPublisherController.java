@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 @Component
-public class AddPublisherController implements Initializable {
+public class AddPublisherController implements ControllerForEntities {
 
     @Autowired
     PublisherService publisherService;
@@ -79,7 +78,8 @@ public class AddPublisherController implements Initializable {
     public void cancel(ActionEvent actionEvent) {
     }
 
-    public void inflateUI(PublisherDto publisherDto) {
+    @Override
+    public void inflateUI(EntityDto publisherDto) {
         this.publisherId = publisherDto.getId();
         this.publisherName.setText(publisherDto.getName());
     }

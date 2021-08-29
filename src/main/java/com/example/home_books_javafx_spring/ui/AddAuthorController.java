@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 @Component
-public class AddAuthorController implements Initializable {
+public class AddAuthorController implements ControllerForEntities {
 
     @Autowired
     AuthorService authorService;
@@ -79,7 +78,8 @@ public class AddAuthorController implements Initializable {
         }
     }
 
-    public void inflateUI(AuthorDto authorDto) {
+    @Override
+    public void inflateUI(EntityDto authorDto) {
         this.authorId = authorDto.getId();
         this.name.setText(authorDto.getName());
     }

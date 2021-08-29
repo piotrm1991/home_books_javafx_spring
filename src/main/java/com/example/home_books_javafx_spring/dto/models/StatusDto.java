@@ -28,4 +28,24 @@ public class StatusDto implements EntityDto {
         /* Nothing to do here */
         return null;
     }
+
+    @Override
+    public PublisherDto getPublisherDto() {
+        return null;
+    }
+
+    @Override
+    public AuthorDto getAuthorDto() {
+        return null;
+    }
+
+    @Override
+    public ShelfDto getShelfDto() {
+        return null;
+    }
+
+    @Override
+    public StatusDto getStatusDto() {
+        return null;
+    }
 }

@@ -4,23 +4,17 @@ import com.example.home_books_javafx_spring.database.service.BookService;
 import com.example.home_books_javafx_spring.dto.DtoMapper;
 import com.example.home_books_javafx_spring.dto.models.*;
 import com.example.home_books_javafx_spring.util.AlertMaker;
+import com.example.home_books_javafx_spring.util.DialogMaker;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.events.JFXDialogEvent;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -29,17 +23,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Component
-public class BookListController implements Initializable {
+public class BookListController implements ControllerForList {
+
+    @Autowired
+    DialogMaker dialogMaker;
 
     @Autowired
     BookService bookService;
@@ -100,39 +93,11 @@ public class BookListController implements Initializable {
 
         BookDto selectedForEdit = this.dtoMapper.fromBookUI(this.tableView.getSelectionModel().getSelectedItem());
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.scenesLocation + "add_book.fxml"));
-            fxmlLoader.setControllerFactory(a -> this.applicationContext.getBean(a));
-            Parent parent = fxmlLoader.load();
-
-            AddBookController controller = (AddBookController) fxmlLoader.getController();
-            controller.inflateUI(selectedForEdit);
-
-            BoxBlur blur = new BoxBlur(3, 3, 3);
-
-            JFXDialogLayout dialogLayout = new JFXDialogLayout();
-            JFXDialog dialog = new JFXDialog(rootPane, dialogLayout, JFXDialog.DialogTransition.TOP);
-
-            JFXButton saveButton = controller.getSaveButton();
-            JFXButton cancelButton = controller.getCancelButton();
-            cancelButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-                dialog.close();
-                this.handleRefreshBookAction(new ActionEvent());
-            });
-
-            Label header = new Label("Edit Book");
-            header.getStyleClass().add("dialog-header");
-            dialogLayout.setHeading(header);
-            dialogLayout.setBody(parent);
-            dialogLayout.setMinWidth(700);
-            dialog.show();
-            dialog.setOnDialogClosed((JFXDialogEvent event1) -> {
-                rootAnchorPane.setEffect(null);
-            });
-            rootAnchorPane.setEffect(blur);
-        } catch (IOException e) {
-            Logger.getLogger(BookListController.class.getName()).log(Level.SEVERE, null, e);
-        }
+        Map<String, Object> controls = this.dialogMaker.showDialog(rootPane, rootAnchorPane, "editBook", selectedForEdit);
+        JFXButton button = (JFXButton) controls.get("cancel");
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
+            this.handleRefreshBookAction(new ActionEvent());
+        });
     }
 
     @FXML
@@ -217,6 +182,7 @@ public class BookListController implements Initializable {
         this.commentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     }
 
+    @Override
     public void inflateUI(EntityDto entity) {
         this.sortFlag = entity;
         this.loadData();

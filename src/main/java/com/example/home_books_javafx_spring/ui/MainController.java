@@ -81,32 +81,32 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleMenuAddBook(ActionEvent actionEvent) {
-        this.dialogMaker.showAddEditBookDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showDialog(this.rootPane, this.rootAnchorPane, "addBook", null);
     }
 
     @FXML
     private void handleMenuAddPublisher(ActionEvent actionEvent) {
-        this.dialogMaker.showAddEditPublisherDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showDialog(this.rootPane, this.rootAnchorPane, "addPublisher", null);
     }
 
     @FXML
     private void handleMenuAddAuthor(ActionEvent actionEvent) {
-        this.dialogMaker.showAddEditAuthorDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showDialog(this.rootPane, this.rootAnchorPane, "addAuthor", null);
     }
 
     @FXML
     private void handleMenuViewBooks(ActionEvent actionEvent) {
-        this.dialogMaker.showBookListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showDialogList(this.rootPane, this.rootAnchorPane, "bookList", null);
     }
 
     @FXML
     private void handleMenuViewPublishers(ActionEvent actionEvent) {
-        this.dialogMaker.showPublisherListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showDialogList(this.rootPane, this.rootAnchorPane, "publisherList", null);
     }
 
     @FXML
     private void handleMenuViewAuthors(ActionEvent actionEvent) {
-        this.dialogMaker.showAuthorListDialog(this.rootPane, this.rootAnchorPane);
+        this.dialogMaker.showDialogList(this.rootPane, this.rootAnchorPane, "authorList", null);
     }
 
     @FXML

@@ -27,4 +27,24 @@ public class RoomDto implements EntityDto {
     private Integer nBooks;
 
     private Integer nShelves;
+
+    @Override
+    public PublisherDto getPublisherDto() {
+        return null;
+    }
+
+    @Override
+    public AuthorDto getAuthorDto() {
+        return null;
+    }
+
+    @Override
+    public ShelfDto getShelfDto() {
+        return null;
+    }
+
+    @Override
+    public StatusDto getStatusDto() {
+        return null;
+    }
 }

@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.input.MouseEvent;
@@ -27,15 +26,12 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import static com.example.home_books_javafx_spring.config.FieldsConfig.*;
 
 @Component
-public class AddBookController implements Initializable {
+public class AddBookController implements ControllerForEntities {
 
     @Autowired
     BookService bookService;
@@ -139,9 +135,10 @@ public class AddBookController implements Initializable {
                 if (newValue
                     != null
                     && (newValue.getName()).equals(DEFAULT_NEW_AUTHOR_NAME)) {
-                    JFXDialog dialog = dialogMaker.showAddEditAuthorDialog(rootPane, rootAnchorPane);
-                    JFXButton saveButton = addAuthorController.getSaveButton();
-                    JFXButton cancelButton = addAuthorController.getCancelButton();
+                    Map<String, Object> controls = dialogMaker.showDialog(rootPane, rootAnchorPane, "addAuthor", null);
+                    JFXButton saveButton = (JFXButton) controls.get("save");
+                    JFXButton cancelButton = (JFXButton) controls.get("cancel");
+                    JFXDialog dialog = (JFXDialog) controls.get("dialog");
                     saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                         if (addAuthorController.isSaved()) {
                             dialog.close();
@@ -169,9 +166,10 @@ public class AddBookController implements Initializable {
                 if (newValue
                     != null
                     && newValue.getName().equals(DEFAULT_NEW_PUBLISHER_NAME)) {
-                    JFXDialog dialog = dialogMaker.showAddEditPublisherDialog(rootPane, rootAnchorPane);
-                    JFXButton saveButton = addPublisherController.getSaveButton();
-                    JFXButton cancelButton = addPublisherController.getCancelButton();
+                    Map<String, Object> controls = dialogMaker.showDialog(rootPane, rootAnchorPane, "addAuthor", null);
+                    JFXButton saveButton = (JFXButton) controls.get("save");
+                    JFXButton cancelButton = (JFXButton) controls.get("cancel");
+                    JFXDialog dialog = (JFXDialog) controls.get("dialog");
                     saveButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
                         if (addPublisherController.isSaved()) {
                             dialog.close();
@@ -367,7 +365,8 @@ public class AddBookController implements Initializable {
         });
     }
 
-    public void inflateUI(BookDto bookDto) {
+    @Override
+    public void inflateUI(EntityDto bookDto) {
         this.bookId = bookDto.getId();
         this.title.setText(bookDto.getName());
         this.comboBoxPublisher.setValue(bookDto.getPublisherDto());
