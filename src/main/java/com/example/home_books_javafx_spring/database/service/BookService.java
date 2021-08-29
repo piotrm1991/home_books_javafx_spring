@@ -130,4 +130,20 @@ public class BookService {
     public Integer countBooksByAuthorId(Integer id) {
         return this.bookRepository.findByAuthorId(id).size();
     }
+
+    public List<BookDto> getBooksDtoByTitleAuthorPublisher(String title, String authorName, String publisherName) {
+        List<Book> searchedBooks = new ArrayList<>();
+        if (authorName.isEmpty() && publisherName.isEmpty()) {
+            searchedBooks = this.bookRepository.findBookByName(title);
+        } else if (authorName.isEmpty() && !publisherName.isEmpty()) {
+            searchedBooks = this.bookRepository.findByNameAndPublisherName(title, publisherName);
+        } else if (!authorName.isEmpty() && publisherName.isEmpty()) {
+            searchedBooks = this.bookRepository.findByNameAndAuthorName(title, authorName);
+        } else if (!authorName.isEmpty() && !publisherName.isEmpty()){
+            searchedBooks = this.bookRepository.findByNameAndAuthorNameAndPublisherName(title, authorName, publisherName);
+        }
+        List<BookDto> books = new ArrayList<>();
+        searchedBooks.stream().forEach(book -> books.add(this.dtoMapper.fromBook(book)));
+        return books;
+    }
 }
