@@ -28,8 +28,8 @@
                             <children>
                                 <AnchorPane prefWidth="700.0">
                                     <children>
-                                        <JFXComboBox fx:id="comboBoxPublisher" prefHeight="35.0" prefWidth="300.0" promptText="Choose Publisher" AnchorPane.leftAnchor="0.0" />
-                                        <JFXComboBox fx:id="comboBoxAuthor" layoutX="300.0" prefHeight="35.0" prefWidth="300.0" promptText="Choose Author" AnchorPane.rightAnchor="0.0" />
+                                        <JFXComboBox fx:id="comboBoxPublisher" focusColor="#ffff8d" prefHeight="35.0" prefWidth="300.0" promptText="Choose Publisher" unFocusColor="#b2b2b2" AnchorPane.leftAnchor="0.0" />
+                                        <JFXComboBox fx:id="comboBoxAuthor" focusColor="#ffff8d" layoutX="300.0" prefHeight="35.0" prefWidth="300.0" promptText="Choose Author" unFocusColor="#b2b2b2" AnchorPane.rightAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
                             </children>
@@ -39,12 +39,12 @@
                         </HBox>
                         <HBox prefWidth="700.0">
                             <children>
-                                <JFXComboBox fx:id="comboBoxRoom" prefHeight="35.0" prefWidth="300.0" promptText="Choose Room">
+                                <JFXComboBox fx:id="comboBoxRoom" focusColor="#ffff8d" prefHeight="35.0" prefWidth="300.0" promptText="Choose Room" unFocusColor="#b2b2b2">
                                     <HBox.margin>
                                         <Insets right="60.0" />
                                     </HBox.margin>
                                 </JFXComboBox>
-                                <JFXComboBox fx:id="comboBoxShelf" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="150.0" promptText="Letter - Number">
+                                <JFXComboBox fx:id="comboBoxShelf" focusColor="#ffff8d" layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="150.0" promptText="Letter - Number" unFocusColor="#b2b2b2">
                                     <HBox.margin>
                                         <Insets bottom="20.0" right="20.0" />
                                     </HBox.margin>
@@ -58,7 +58,7 @@
                             <children>
                                 <VBox alignment="CENTER">
                                     <children>
-                                        <JFXComboBox fx:id="comboBoxStatusType" prefHeight="35.0" prefWidth="350.0" promptText="Status" />
+                                        <JFXComboBox fx:id="comboBoxStatusType" focusColor="#ffff8d" prefHeight="35.0" prefWidth="350.0" promptText="Status" unFocusColor="#b2b2b2" />
                                     </children>
                                 </VBox>
                                 <JFXTextArea fx:id="comment" labelFloat="true" promptText="Comment" styleClass="text-field">

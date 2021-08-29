@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class BookDto implements EntityDto {
 
     private Integer id;

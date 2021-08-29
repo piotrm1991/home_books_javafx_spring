@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public class StatusDto implements EntityDto {
 
     private Integer id;

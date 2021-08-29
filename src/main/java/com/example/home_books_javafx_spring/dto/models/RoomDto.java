@@ -3,7 +3,7 @@ package com.example.home_books_javafx_spring.dto.models;
 import com.example.home_books_javafx_spring.validator.WrongChoiceString;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class RoomDto implements EntityDto {
 
     private Integer id;

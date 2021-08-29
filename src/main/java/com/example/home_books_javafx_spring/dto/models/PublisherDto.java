@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
 @Builder
 @NoArgsConstructor
@@ -14,6 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class PublisherDto implements EntityDto {
 
     private Integer id;
@@ -25,27 +25,4 @@ public class PublisherDto implements EntityDto {
     private String name;
 
     private Integer nBooks;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this
-            == o) {
-            return true;
-        }
-        if (o
-            == null
-            || getClass()
-               != o.getClass()) {
-            return false;
-        }
-        PublisherDto that = (PublisherDto) o;
-        return Objects.equals(id, that.id)
-               && Objects.equals(name, that.name)
-               && Objects.equals(nBooks, that.nBooks);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, nBooks);
-    }
 }
