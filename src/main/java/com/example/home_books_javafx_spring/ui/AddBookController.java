@@ -7,6 +7,7 @@ import com.example.home_books_javafx_spring.util.DialogMaker;
 import com.example.home_books_javafx_spring.util.EntityValidator;
 import com.example.home_books_javafx_spring.util.HomeBooksUtil;
 import com.jfoenix.controls.*;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,9 +16,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -370,14 +373,133 @@ public class AddBookController implements Initializable {
         this.comboBoxPublisher.setValue(bookDto.getPublisherDto());
         this.comboBoxAuthor.setValue(bookDto.getAuthorDto());
         this.comboBoxRoom.setValue(bookDto.getShelfDto().getRoomDto());
-        this.comboBoxShelf.setValue(bookDto.getShelfDto());
+
         this.comboBoxStatusType.setValue(bookDto.getStatusDto().getStatusTypeDto());
         this.comment.setText(bookDto.getStatusDto().getComment());
 
         this.comboBoxShelf.setDisable(false);
         this.prepareShelfList(bookDto.getShelfDto().getRoomDto());
         this.prepareShelfComboBox();
+        this.comboBoxShelf.setValue(bookDto.getShelfDto());
         this.statusOfEditBook = bookDto.getStatusDto();
+
+        this.prepareComboBoxesForEdit();
+    }
+
+    private void prepareComboBoxesForEdit() {
+        this.preparePublisherComboBoxForEdit();
+        this.prepareAuthorComboBoxForEdit();
+        this.prepareRoomComboBoxForEdit();
+        this.prepareStatusTypeComboBoxForEdit();
+        this.prepareShelfComboBoxForEdit();
+    }
+
+    private void prepareShelfComboBoxForEdit() {
+        this.comboBoxShelf.buttonCellProperty().bind(Bindings.createObjectBinding(() -> {
+            Color selectedColor = Color.valueOf("#FFFF8D");
+            return new ListCell<ShelfDto>() {
+                @Override
+                protected void updateItem(ShelfDto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item.getLetter()
+                                + " - "
+                                + item.getNumber());
+                        setTextFill(selectedColor);
+                    }
+                    if (empty
+                        && item
+                           == null) {
+                        setText("");
+                    }
+                }
+            };
+        }));
+    }
+
+    private void prepareStatusTypeComboBoxForEdit() {
+        this.comboBoxStatusType.buttonCellProperty().bind(Bindings.createObjectBinding(() -> {
+            Color selectedColor = Color.valueOf("#FFFF8D");
+            return new ListCell<StatusTypeDto>() {
+                @Override
+                protected void updateItem(StatusTypeDto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item.getName());
+                        setTextFill(selectedColor);
+                    }
+                    if (empty
+                        && item
+                           == null) {
+                        setText("");
+                    }
+                }
+            };
+        }));
+    }
+
+    private void prepareRoomComboBoxForEdit() {
+
+        this.comboBoxRoom.buttonCellProperty().bind(Bindings.createObjectBinding(() -> {
+            Color selectedColor = Color.valueOf("#FFFF8D");
+            return new ListCell<RoomDto>() {
+                @Override
+                protected void updateItem(RoomDto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item.getName());
+                        setTextFill(selectedColor);
+                    }
+                    if (empty
+                        && item
+                           == null) {
+                        setText("");
+                    }
+                }
+            };
+        }));
+    }
+
+    private void prepareAuthorComboBoxForEdit() {
+        this.comboBoxAuthor.buttonCellProperty().bind(Bindings.createObjectBinding(() -> {
+            Color selectedColor = Color.valueOf("#FFFF8D");
+            return new ListCell<AuthorDto>() {
+                @Override
+                protected void updateItem(AuthorDto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item.getName());
+                        setTextFill(selectedColor);
+                    }
+                    if (empty
+                        && item
+                           == null) {
+                        setText("");
+                    }
+                }
+            };
+        }));
+    }
+
+    private void preparePublisherComboBoxForEdit() {
+        this.comboBoxPublisher.buttonCellProperty().bind(Bindings.createObjectBinding(() -> {
+            Color selectedColor = Color.valueOf("#FFFF8D");
+            return new ListCell<PublisherDto>() {
+                @Override
+                protected void updateItem(PublisherDto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item.getName());
+                        setTextFill(selectedColor);
+                    }
+                    if (empty
+                        && item
+                           == null) {
+                        setText("");
+                    }
+                }
+            };
+        }));
     }
 
     public JFXButton getSaveButton() {
